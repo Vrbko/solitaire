@@ -2,14 +2,16 @@ package com.boardgame;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.boardgame.boardGame;
+import com.boardgame.screen.config.GameConfig;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(60);
-		config.setTitle("boardGame");
-		new Lwjgl3Application(new boardGame(), config);
+		config.setForegroundFPS(144);
+		config.setTitle("Spider Solitaire");
+		config.setWindowedMode((int) GameConfig.WIDTH, (int) GameConfig.HEIGHT);
+
+		new Lwjgl3Application(new BoardGame(), config);
 	}
 }
