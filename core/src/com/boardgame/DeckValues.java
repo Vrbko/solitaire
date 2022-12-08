@@ -1,5 +1,8 @@
 package com.boardgame;
 
+import com.badlogic.gdx.utils.Logger;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +28,16 @@ public enum DeckValues {
     private static final Random RANDOM = new Random();
 
     public static DeckValues randomValue()  {
-        return VALUES.get(RANDOM.nextInt(SIZE));
+        DeckValues x = VALUES.get(RANDOM.nextInt(SIZE));
+        usedValues.add(x);
+        returnNumberOfOccurrences();
+        return x;
     }
+    private static final Logger log = new Logger(DeckValues.class.getSimpleName(), Logger.DEBUG);
+    static final ArrayList<DeckValues> usedValues = new ArrayList<DeckValues>();
+
+    public static void returnNumberOfOccurrences(){
+        log.debug(String.valueOf(usedValues.size()));
+    }
+
 }

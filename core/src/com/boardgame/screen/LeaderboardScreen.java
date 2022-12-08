@@ -80,6 +80,7 @@ public class LeaderboardScreen extends ScreenAdapter {
     }
 
     private Actor createUi() {
+
         Table table = new Table();
         table.defaults().pad(20);
 
@@ -93,17 +94,18 @@ public class LeaderboardScreen extends ScreenAdapter {
                 game.setScreen(new MenuScreen(game));
             }
         });
-
+        backButton.setColor(Color.BLACK);
         Object[] listEntries = {"Vrbko: 192 - 1m55s", "Joza: 202 - 2m15s", "Franci: 303 - 4m22s","Brozo: 665 - 11m05s","Adam: 1024 - 22m44s"};
+
+
         Table buttonTable = new Table();
-
         buttonTable.defaults().padLeft(30).padRight(30);
-
-        TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.CARD_BACKGROUND);
+        TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.MENU_BACKGROUND);
         buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
         List list = new List(skin);
         list.setItems(listEntries);
-        list.setColor(Color.GREEN);
+        list.setColor(Color.BLACK);
+
 
         list.getSelection().setMultiple(true);
         list.getSelection().setRequired(false);

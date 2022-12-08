@@ -1,5 +1,6 @@
 package com.boardgame;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.boardgame.screen.config.GameConfig;
@@ -11,7 +12,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(144);
 		config.setTitle("Spider Solitaire");
 		config.setWindowedMode((int) GameConfig.WIDTH, (int) GameConfig.HEIGHT);
-
+		config.setWindowIcon(Files.FileType.Internal,"spider2.png");
 		new Lwjgl3Application(new BoardGame(), config);
 	}
 }

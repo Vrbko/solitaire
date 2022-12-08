@@ -41,11 +41,7 @@ public class IntroScreen extends ScreenAdapter {
         stage = new Stage(viewport, game.getBatch());
 
         // load assets
-        assetManager.load(AssetDescriptors.UI_FONT);
-        assetManager.load(AssetDescriptors.UI_SKIN);
 
-        assetManager.load(AssetDescriptors.GAMEPLAY);
-        assetManager.finishLoading();   // blocks until all assets are loaded
 
 
         gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY);
@@ -54,16 +50,18 @@ public class IntroScreen extends ScreenAdapter {
             stage.addActor(createDeck(i));
 
 
-
         for (int i = 0; i < 10; i++) {
             for (int j = 1; j < 4; j++) {
-                    stage.addActor(createCard(i, j));
+                stage.addActor(createCard(i, j));
             }
         }
 
         for (int j = 0; j < 10; j++) {
             stage.addActor(createAnimation(j));
         }
+
+
+
     }
 
     @Override
@@ -73,6 +71,7 @@ public class IntroScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+
         ScreenUtils.clear(0 / 255f, 128 / 255f, 0 / 255f, 0f);
 
         duration += delta;
@@ -98,35 +97,36 @@ public class IntroScreen extends ScreenAdapter {
 
     private Actor createDeck(int offset) {
         Image deck = new Image(gameplayAtlas2.findRegion(RegionNames.CARD_BACKGROUND));
-            deck.setPosition(viewport.getWorldWidth() - deck.getWidth()*2-deck.getWidth() * offset*.5f,
-                    viewport.getWorldHeight() / 4f / 2f - deck.getHeight() / 2f);
+        deck.setPosition(viewport.getWorldWidth() - deck.getWidth() * 2 - deck.getWidth() * offset * .5f,
+                viewport.getWorldHeight() / 4f / 2f - deck.getHeight() / 2f);
 
         return deck;
     }
-    private Actor createCard(int offsetX, int offsetY  ) {
+
+    private Actor createCard(int offsetX, int offsetY) {
         Image card;
-            card = new Image(gameplayAtlas2.findRegion(RegionNames.CARD_BACKGROUND));
+        card = new Image(gameplayAtlas2.findRegion(RegionNames.CARD_BACKGROUND));
 
 
-        card.setPosition(viewport.getWorldWidth()-40 - card.getWidth() - (offsetX* 2f*card.getWidth()),
-                viewport.getWorldHeight() - card.getHeight() -  card.getHeight()/4*offsetY*0.75f );
-     return card;
+        card.setPosition(viewport.getWorldWidth() - 40 - card.getWidth() - (offsetX * 2f * card.getWidth()),
+                viewport.getWorldHeight() - card.getHeight() - card.getHeight() / 4 * offsetY * 0.75f);
+        return card;
     }
 
     private Actor createAnimation(int offset) {
         Image animatedCard = new Image(gameplayAtlas2.findRegion(RegionNames.returnRandomValue()));
-        float posX = viewport.getWorldWidth()-40 - animatedCard.getWidth() - (offset* 2f*animatedCard.getWidth());
-        float posY = (viewport.getWorldHeight()) - animatedCard.getHeight()*1.75f ;
+        float posX = viewport.getWorldWidth() - 40 - animatedCard.getWidth() - (offset * 2f * animatedCard.getWidth());
+        float posY = (viewport.getWorldHeight()) - animatedCard.getHeight() * 1.75f;
         animatedCard.setOrigin(Align.center);
         animatedCard.addAction(
                 Actions.sequence(
-                        Actions.moveTo((viewport.getWorldWidth()) - animatedCard.getWidth()*4.5f , animatedCard.getHeight()/2f-10 ),
-                        Actions.delay(1.0f-0.1f*offset),
+                        Actions.moveTo((viewport.getWorldWidth()) - animatedCard.getWidth() * 4.5f, animatedCard.getHeight() / 2f - 10),
+                        Actions.delay(1.0f - 0.1f * offset),
                         Actions.parallel(
                                 Actions.rotateBy(720, 0.95f),   // rotate the image three times
                                 Actions.moveTo(posX, posY, 0.9f)   // // move image to the center of the window
                         )
-                       // Actions.removeActor()   // // remove image
+                        // Actions.removeActor()   // // remove image
                 )
         );
 

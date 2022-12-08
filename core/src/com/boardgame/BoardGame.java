@@ -7,7 +7,11 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Logger;
+import com.boardgame.assets.AssetDescriptors;
+import com.boardgame.screen.GameScreen;
 import com.boardgame.screen.IntroScreen;
+import com.boardgame.screen.MenuScreen;
+import com.boardgame.screen.SettingsScreen;
 
 public class BoardGame extends Game {
 	private AssetManager assetManager;
@@ -22,8 +26,12 @@ public class BoardGame extends Game {
 		assetManager.getLogger().setLevel(Logger.DEBUG);
 
 		batch = new SpriteBatch();
+		assetManager.load(AssetDescriptors.UI_FONT);
+		assetManager.load(AssetDescriptors.UI_SKIN);
 
-		setScreen(new IntroScreen(this));
+		assetManager.load(AssetDescriptors.GAMEPLAY);
+		assetManager.finishLoading();   // blocks until all assets are loaded
+		setScreen(new GameScreen(this));
 	}
 
 
