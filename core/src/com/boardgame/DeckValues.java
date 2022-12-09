@@ -34,10 +34,13 @@ public enum DeckValues {
         return x;
     }
     private static final Logger log = new Logger(DeckValues.class.getSimpleName(), Logger.DEBUG);
-    static final ArrayList<DeckValues> usedValues = new ArrayList<DeckValues>();
+    static  ArrayList<DeckValues> usedValues = new ArrayList<DeckValues>();
 
     public static void returnNumberOfOccurrences(){
         log.debug(String.valueOf(usedValues.size()));
     }
 
+    public static void resetCards() {
+        usedValues.clear();
+    }
 }

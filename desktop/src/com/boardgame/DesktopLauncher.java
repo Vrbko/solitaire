@@ -9,7 +9,6 @@ import com.boardgame.screen.config.GameConfig;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(144);
 		config.setTitle("Spider Solitaire");
 		config.setWindowedMode((int) GameConfig.WIDTH, (int) GameConfig.HEIGHT);
 		config.setWindowIcon(Files.FileType.Internal,"spider2.png");

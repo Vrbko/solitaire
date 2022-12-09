@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boardgame.BoardGame;
+import com.boardgame.DeckValues;
 import com.boardgame.assets.AssetDescriptors;
 import com.boardgame.assets.RegionNames;
 import com.boardgame.screen.config.GameConfig;
@@ -78,6 +79,7 @@ public class IntroScreen extends ScreenAdapter {
 
         // go to the MenuScreen after INTRO_DURATION_IN_SEC seconds
         if (duration > INTRO_DURATION_IN_SEC) {
+            RegionNames.resetCards();
             game.setScreen(new MenuScreen(game));
         }
 

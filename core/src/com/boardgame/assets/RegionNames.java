@@ -35,14 +35,14 @@ public class RegionNames {
     }
 
     public static String returnRandomValue()  {
-        String x = list.get(RANDOM.nextInt(SIZE));
-        int occurrences = Collections.frequency(usedValues, x);
+        String x="";
+        int occurrences = 0 ;
+        do{
+             x = list.get(RANDOM.nextInt(SIZE));
+             occurrences = Collections.frequency(usedValues, x);
+        }while(occurrences  > 4);
+
         log.debug("Occurrences: " + String.valueOf(occurrences) + "of " + x);
-       /* if(occurrences  > 4){
-            String temp = returnRandomValue();
-            usedValues.add(temp);
-            return temp ;
-        }*/
         usedValues.add(x);
         //returnNumberOfOccurrences();
         return x;
@@ -52,6 +52,9 @@ public class RegionNames {
 
     public static void returnNumberOfOccurrences(){
         log.debug(String.valueOf(usedValues.size()));
+    }
+    public static void resetCards() {
+        usedValues.clear();
     }
 
 }

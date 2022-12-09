@@ -31,7 +31,7 @@ public class BoardGame extends Game {
 
 		assetManager.load(AssetDescriptors.GAMEPLAY);
 		assetManager.finishLoading();   // blocks until all assets are loaded
-		setScreen(new GameScreen(this));
+		setScreen(new MenuScreen(this));
 	}
 
 

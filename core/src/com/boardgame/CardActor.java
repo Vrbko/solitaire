@@ -15,8 +15,8 @@ public class CardActor extends Image {
         super(region);
         this.i = i ;
         this.j = j;
-        value = DeckValues.ACE;
     }
+
 
     public void setValue(DeckValues value) {
         this.value = value;
@@ -41,10 +41,15 @@ public class CardActor extends Image {
                         Actions.parallel(
                                 Actions.rotateBy(720, 0.25f),
                                 Actions.scaleTo(0, 0, 0.25f)
+
                         ),
                         Actions.scaleTo(1, 1, 0.25f)
                 )
         );
+    }
+
+    public boolean isMovable() {
+        return true;
     }
 }
 
