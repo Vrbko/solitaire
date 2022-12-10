@@ -44,11 +44,11 @@ public class CardActor extends Image {
         addAction(
                 Actions.sequence(
                         Actions.parallel(
-                                Actions.rotateBy(720, 0.25f),
-                                Actions.scaleTo(0, 0, 0.25f)
+                                //Actions.rotateBy(720, 0.25f),
+                                Actions.scaleTo(0, 0, 0.15f)
 
                         ),
-                        Actions.scaleTo(1, 1, 0.25f)
+                        Actions.scaleTo(1, 1, 0.15f)
                 )
         );
     }
@@ -63,7 +63,6 @@ public class CardActor extends Image {
         addAction(
                 Actions.sequence(
                         Actions.moveBy(0,1,0.1f),
-
                         Actions.moveBy(0,-1,0.1f),
                         Actions.delay(0.25f)
 
@@ -75,9 +74,10 @@ public class CardActor extends Image {
         setOrigin(Align.center);
         addAction(
                 Actions.sequence(
-                        Actions.rotateBy(15,0.1f),
-                       // Actions.delay(0.25f),
-                        Actions.rotateBy(-15,0.1f),
+                        Actions.rotateBy(15,0.05f),
+                        Actions.rotateBy(-15,0.05f),
+                        Actions.rotateBy(-15,0.05f),
+                        Actions.rotateBy(15,0.05f),
                         Actions.delay(0.25f)
 
                 )

@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -53,11 +54,11 @@ public class GameScreen extends ScreenAdapter {
 
     private Skin skin;
     private TextureAtlas gameplayAtlas;
-    private static final int cols = 10,rows = 20;
+    private static final int cols = 10, rows = 20;
     private Image infoImage;
 
     private boolean click = true; // 1 - 0
-    private int destinationRow,destinationColumn;
+    private int destinationRow, destinationColumn;
     private int originRow, originColumn;
 
     private int[][] Values = new int[20][10];
@@ -66,18 +67,17 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         assetManager = game.getAssetManager();
         DeckValues.resetCards();
-        for (int row = 0; row < rows ; row++)
+        for (int row = 0; row < rows; row++)
             for (int column = 0; column < cols; column++) {
 
-                 if(row < 6 ){
+                if (row < 2) {
                     String x = DeckValues.returnRandomValue();
                     Values[row][column] = DeckValues.valueOf(x).ordinal();
                     log.debug("Index: " + Values[row][column]);
-                    if(row == 5 && column > 3)
+                    if (row == 5 && column > 3)
                         Values[row][column] = 0;
-                }
-                 else
-                     Values[row][column] = 0;
+                } else
+                    Values[row][column] = 0;
             }
 
     }
@@ -94,7 +94,7 @@ public class GameScreen extends ScreenAdapter {
         gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
         gameplayStage.addActor(createGrid());
-        gameplayStage.setDebugAll(true);
+       // gameplayStage.setDebugAll(false);
         hudStage.addActor(createDecks());
         hudStage.addActor(createBackButton());
 
@@ -139,49 +139,47 @@ public class GameScreen extends ScreenAdapter {
         final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BLANC);
 
         final Table grid = new Table();
-        grid.defaults().size(7f,14f);   // all cells will be the same size
-        grid.setDebug(true);
+        grid.defaults().size(7f, 14f);   // all cells will be the same size
+        grid.setDebug(false);
 
 
-
-
-        for (int row = 0; row < rows ; row++) {
+        for (int row = 0; row < rows; row++) {
             for (int column = 0; column < cols; column++) {
-               // if(row > 3 && column > 3 || row > 4)
-                    cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[row][column]].toString());
+                // if(row > 3 && column > 3 || row > 4)
+                cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[row][column]].toString());
 
-                final CardActor cell = new CardActor(cardValue[0],row,column);
+                final CardActor cell = new CardActor(cardValue[0], row, column);
                 final TextureRegion finalCardValue = cardValue[0];
                 final int finalRow = row;
                 final int finalColumn = column;
-
 
 
                 cell.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
-                        //log.debug(String.valueOf(table.swapActor(1,3)));
-                            if(Values[finalRow][finalColumn] == 0 && finalRow != 0)
-                                return;
+                        if (Values[finalRow][finalColumn] == 0 && finalRow != 0)
+                            return;
                         if (clickedCell.isMovable()) {
-                            if(click){
+                            if (click) {
                                 originRow = finalRow;
                                 originColumn = finalColumn;
-                                int lastRow = getDestinationRow(originColumn);
-                                if(lastRow != originRow+1) {
+                                if (!doValuesDescend(originRow, originColumn)) { //improper
                                     clickedCell.improperSelection();
-                                    log.debug(lastRow +" " +originRow);
-                                }
-                                else {
+                                    log.debug("improper");
+                                } else {
+                                    click = !click;
                                     clickedCell.selectedAnimation();
-                                    click = !click; // IF PROPER CLICK, ELSE
+                                    log.debug("proper");
                                 }
-                            }
-                            else{
+                            } else {
                                 destinationColumn = finalColumn;
-                                updateValues(originRow,originColumn,destinationColumn);
-                                //izris
+                                log.debug("tu? - orgrow: " + originRow + " orgcol: " + originColumn + "destcol: " + destinationColumn);
+                                if(originColumn==destinationColumn)
+                                    return;
+                                log.debug("tu?1");
+                                updateValues(originRow, originColumn, destinationColumn);
+                                log.debug("tu?2 ");
                                 SnapshotArray<Actor> children = grid.getChildren();
                                 int i = 0;
                                 int j = 0;
@@ -190,7 +188,7 @@ public class GameScreen extends ScreenAdapter {
                                     cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[j][i]].toString());
                                     tempValueForChangingTable.setDrawable(cardValue[0]);
                                     i++;
-                                    if(i%10==0 && i != 0) {
+                                    if (i % 10 == 0 && i != 0) {
                                         i = 0;
                                         j++;
                                     }
@@ -200,7 +198,7 @@ public class GameScreen extends ScreenAdapter {
                         }
 
 
-                        log.debug("click:"  + click + "clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ()+ " final " + finalColumn);
+                        //  log.debug("click:"  + click + "clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ()+ " final " + finalColumn);
                     }
                 });
 
@@ -213,38 +211,73 @@ public class GameScreen extends ScreenAdapter {
         }
 
 
-       // grid.center();
+        // grid.center();
 
         grid.pack();
-        grid.setPosition(30,0 );
+        grid.setPosition(30, 0);
 
         return grid;
     }
 
+    private boolean doValuesDescend(int originRowFunction, int originColumnFunction) {
+        if (Values[originRowFunction + 1][originColumnFunction] == 0)
+            return true;
+        int temp = Values[originRowFunction][originColumnFunction];
+        int here = getDestinationRow(originColumnFunction);
+        //  log.debug("\nHALLO: r: " + originRowFunction +" c: " + originColumnFunction +" t: "+ temp);
+        for (int row = originRowFunction + 1; row < rows; row++) {
+            log.debug("Temp:" + temp + "-1 == " + Values[row][originColumnFunction]);
+            if (temp - 1 == Values[row][originColumnFunction]) {
+                temp = Values[row][originColumnFunction];
+                if (Values[row + 1][originColumnFunction] == 0)
+                    return true;
+            } else
+                return false;
+
+
+        }
+
+        return false;
+    }
 
 
     private void updateValues(int originRow, int originColumn, int destinationColumn) {
-        if(originColumn == destinationColumn)
+        if (originColumn == destinationColumn) {
+            log.debug("RETURNED");
             return;
+        }
         int destinationRow = getDestinationRow(destinationColumn);
-int offset=0;
-        for (int row = destinationRow; row < rows ; row++) {
-            Values[row][destinationColumn] = Values[originRow+offset][originColumn];
+        int offset = 0;
+        log.debug("vrjetno tu");
+        if(destinationRow > 0 && Values[originRow][originColumn]+1  != Values[destinationRow-1][destinationColumn]){
+            log.debug("org+1: " + Values[originRow][originColumn] + " !=  dest: " +  Values[destinationRow-1][destinationColumn]);
+            return;
+        }
+
+
+
+        for (int row = destinationRow; row < rows; row++) {
+            if (originRow + offset == 20)
+                break;
+            Values[row][destinationColumn] = Values[originRow + offset][originColumn];
+            log.debug("ADDED: " + Values[row][destinationColumn] + " R:"  + row + " C: " + destinationColumn);
             offset++;
         }
-        for (int row = originRow; row < rows ; row++) {
+
+        for (int row = originRow; row < rows; row++) {
             //Values[destinationRow][destinationColumn] = Values[originRow][originColumn];
             Values[row][originColumn] = 0;
+            log.debug("Removed: " + Values[row][originColumn] + " R:"  + row + " C: " + originColumn);
         }
 
     }
 
     private int getDestinationRow(int destinationColumn) {
-        for (int row = 0; row < rows ; row++) {
+        for (int row = 0; row < rows; row++) {
             if (Values[row][destinationColumn] == 0)
                 return row;
         }
-        return -1;
+        return 0;
     }
 
 
@@ -269,32 +302,27 @@ int offset=0;
         final Table table = new Table();
         table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
         final Table grid = new Table();
-        grid.defaults().size(40,80);   // all cells will be the same size
+        grid.defaults().size(40, 80);   // all cells will be the same size
         grid.setDebug(false);
-        int cols = 5 ;
-
-
-            for (int column = 0; column < cols; column++) {
-                final CardActor cell = new CardActor(cardValue,0,column);
-                final TextureRegion finalCardValue = cardValue;
-                cell.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
-                        if (clickedCell.isMovable()) {
-                            clickedCell.setDrawable(xRegion);
-                        }
-                        log.debug("clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ());
-                        table.clear();
-
-
+        int cols = 5;
+        for (int column = 0; column < cols; column++) {
+            final CardActor cell = new CardActor(cardValue, 0, column);
+            final TextureRegion finalCardValue = cardValue;
+            cell.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
+                    if (clickedCell.isMovable()) {
+                        clickedCell.setDrawable(xRegion);
                     }
-                });
+                    log.debug("clicked x: " + x + " y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ());
+                    table.clear();
+                }
+            });
 
-                grid.add(cell).padLeft(-10.7f);
+            grid.add(cell).padLeft(-10.7f);
 
-            }
-
+        }
 
 
         table.add(grid).row();
@@ -303,7 +331,7 @@ int offset=0;
         table.setFillParent(true);
         table.pack();
         table.setPosition(
-               250,-200
+                750, -300
         );
         return table;
     }
