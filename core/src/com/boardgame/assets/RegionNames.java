@@ -14,19 +14,22 @@ public class RegionNames {
     public static final String BACKGROUND = "menu";
     public static final String CARD_BACKGROUND= "card_background"; //preimenuj lepo
     public static final String MENU_BACKGROUND = "menu_background";
-    public static final String ACE = "A";
-    public static final String CARD_2= "2";
-    public static final String CARD_3= "3";
-    public static final String CARD_4= "4";
-    public static final String CARD_5= "5";
-    public static final String CARD_6= "6";
-    public static final String CARD_7= "7";
-    public static final String CARD_8= "8";
-    public static final String CARD_9= "9";
-    public static final String CARD_10= "10";
-    public static final String JACK= "J";
-    public static final String QUEEN= "Q";
-    public static final String KING = "K";
+    public static final String BLANC = "blank";
+
+    public static final String ACE = "ACE";
+    public static final String CARD_2= "TWO";
+    public static final String CARD_3= "THREE";
+    public static final String CARD_4= "FOUR";
+    public static final String CARD_5= "FIVE";
+    public static final String CARD_6= "SIX";
+    public static final String CARD_7= "SEVEN";
+    public static final String CARD_8= "EIGHT";
+    public static final String CARD_9= "NINE";
+    public static final String CARD_10= "TEN";
+    public static final String JACK= "JACK";
+    public static final String QUEEN= "QUEEN";
+    public static final String KING = "KING";
+
 
     static List<String> list = Arrays.asList(ACE, JACK, QUEEN,KING,CARD_2,CARD_3,CARD_4,CARD_5,CARD_6,CARD_7,CARD_8,CARD_9,CARD_10);
     private static final int SIZE = list.size();

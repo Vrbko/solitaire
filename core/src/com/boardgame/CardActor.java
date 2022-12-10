@@ -22,6 +22,11 @@ public class CardActor extends Image {
         this.value = value;
     }
 
+    public void Remove() {
+
+        super.remove();
+    }
+
     public void setDrawable(TextureRegion region) {
         super.setDrawable(new TextureRegionDrawable(region));
         addAnimation(); // play animation when region changed
@@ -34,7 +39,7 @@ public class CardActor extends Image {
     public int returnIndexJ(){
         return this.j;
     }
-    private void addAnimation() {
+    public void addAnimation() {
         setOrigin(Align.center);
         addAction(
                 Actions.sequence(
@@ -50,6 +55,33 @@ public class CardActor extends Image {
 
     public boolean isMovable() {
         return true;
+    }
+
+
+    public void selectedAnimation() {
+        setOrigin(Align.center);
+        addAction(
+                Actions.sequence(
+                        Actions.moveBy(0,1,0.1f),
+
+                        Actions.moveBy(0,-1,0.1f),
+                        Actions.delay(0.25f)
+
+                )
+        );
+    }
+
+    public void improperSelection() {
+        setOrigin(Align.center);
+        addAction(
+                Actions.sequence(
+                        Actions.rotateBy(15,0.1f),
+                       // Actions.delay(0.25f),
+                        Actions.rotateBy(-15,0.1f),
+                        Actions.delay(0.25f)
+
+                )
+        );
     }
 }
 

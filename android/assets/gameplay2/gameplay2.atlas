@@ -4,91 +4,91 @@ size: 1024, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-10
-  rotate: false
-  xy: 312, 99
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-2
+ACE
   rotate: false
   xy: 804, 849
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-3
+EIGHT
   rotate: false
   xy: 312, 347
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-4
+FIVE
   rotate: false
   xy: 804, 725
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-5
+FOUR
   rotate: false
   xy: 886, 849
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-6
+JACK
   rotate: false
   xy: 312, 223
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-7
+KING
   rotate: false
   xy: 394, 347
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-8
+NINE
   rotate: false
   xy: 804, 601
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-9
+QUEEN
   rotate: false
   xy: 886, 725
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-A
+SEVEN
+  rotate: false
+  xy: 312, 99
+  size: 80, 122
+  orig: 80, 122
+  offset: 0, 0
+  index: -1
+SIX
   rotate: false
   xy: 394, 223
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-J
+TEN
   rotate: false
   xy: 476, 347
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-K
+THREE
   rotate: false
   xy: 804, 477
   size: 80, 122
   orig: 80, 122
   offset: 0, 0
   index: -1
-Q
+TWO
   rotate: false
   xy: 886, 601
   size: 80, 122
@@ -114,5 +114,18 @@ menu_background
   xy: 2, 2
   size: 308, 467
   orig: 308, 467
+  offset: 0, 0
+  index: -1
+
+gameplay2-2.png
+size: 512, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+blank
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
   offset: 0, 0
   index: -1

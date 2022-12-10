@@ -20,10 +20,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boardgame.BoardGame;
@@ -34,6 +36,7 @@ import com.boardgame.assets.AssetDescriptors;
 import com.boardgame.assets.RegionNames;
 import com.boardgame.screen.MenuScreen;
 import com.boardgame.screen.config.GameConfig;
+import com.sun.tools.javac.util.Log;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -50,16 +53,33 @@ public class GameScreen extends ScreenAdapter {
 
     private Skin skin;
     private TextureAtlas gameplayAtlas;
-
+    private static final int cols = 10,rows = 20;
     private Image infoImage;
 
-    private boolean click = false; // 1 - 0
+    private boolean click = true; // 1 - 0
     private int destinationRow,destinationColumn;
     private int originRow, originColumn;
+
+    private int[][] Values = new int[20][10];
 
     public GameScreen(BoardGame game) {
         this.game = game;
         assetManager = game.getAssetManager();
+        DeckValues.resetCards();
+        for (int row = 0; row < rows ; row++)
+            for (int column = 0; column < cols; column++) {
+
+                 if(row < 6 ){
+                    String x = DeckValues.returnRandomValue();
+                    Values[row][column] = DeckValues.valueOf(x).ordinal();
+                    log.debug("Index: " + Values[row][column]);
+                    if(row == 5 && column > 3)
+                        Values[row][column] = 0;
+                }
+                 else
+                     Values[row][column] = 0;
+            }
+
     }
 
     @Override
@@ -74,8 +94,10 @@ public class GameScreen extends ScreenAdapter {
         gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
         gameplayStage.addActor(createGrid());
+        gameplayStage.setDebugAll(true);
         hudStage.addActor(createDecks());
         hudStage.addActor(createBackButton());
+
 
         Gdx.input.setInputProcessor(new InputMultiplexer(gameplayStage, hudStage));
     }
@@ -84,6 +106,7 @@ public class GameScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         hudViewport.update(width, height, true);
+        log.debug("resize" + height + " ," + width);
     }
 
     @Override
@@ -112,25 +135,23 @@ public class GameScreen extends ScreenAdapter {
 
     private Actor createGrid() {
 
-        TextureRegion cardValue = gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND);
-        final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BACKGROUND);
-        final Table table = new Table();
-        table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
+        final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND)};
+        final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BLANC);
+
         final Table grid = new Table();
-        grid.defaults().size(4,8);   // all cells will be the same size
+        grid.defaults().size(7f,14f);   // all cells will be the same size
         grid.setDebug(true);
-        int rows= 6, cols = 10 ;
+
+
 
 
         for (int row = 0; row < rows ; row++) {
             for (int column = 0; column < cols; column++) {
+               // if(row > 3 && column > 3 || row > 4)
+                    cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[row][column]].toString());
 
-                if(row > 3 && column > 3 || row > 4)
-                    cardValue  = gameplayAtlas.findRegion(RegionNames.returnRandomValue());
-                if(row == 5 && column == 4 )
-                    break;
-                final CardActor cell = new CardActor(cardValue,row,column);
-                final TextureRegion finalCardValue = cardValue;
+                final CardActor cell = new CardActor(cardValue[0],row,column);
+                final TextureRegion finalCardValue = cardValue[0];
                 final int finalRow = row;
                 final int finalColumn = column;
 
@@ -140,49 +161,97 @@ public class GameScreen extends ScreenAdapter {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
-                        
                         //log.debug(String.valueOf(table.swapActor(1,3)));
-                        if(click){
-                            originRow = finalRow;
-                            originColumn = finalColumn;
-                        }
-                        if(!click){
-                            destinationRow = finalRow;
-                            destinationColumn = finalColumn;
-                        }
-                            click = !click;
+                            if(Values[finalRow][finalColumn] == 0 && finalRow != 0)
+                                return;
                         if (clickedCell.isMovable()) {
-
-                           clickedCell.setDrawable(xRegion);
+                            if(click){
+                                originRow = finalRow;
+                                originColumn = finalColumn;
+                                int lastRow = getDestinationRow(originColumn);
+                                if(lastRow != originRow+1) {
+                                    clickedCell.improperSelection();
+                                    log.debug(lastRow +" " +originRow);
+                                }
+                                else {
+                                    clickedCell.selectedAnimation();
+                                    click = !click; // IF PROPER CLICK, ELSE
+                                }
+                            }
+                            else{
+                                destinationColumn = finalColumn;
+                                updateValues(originRow,originColumn,destinationColumn);
+                                //izris
+                                SnapshotArray<Actor> children = grid.getChildren();
+                                int i = 0;
+                                int j = 0;
+                                for (Actor eex : children) {
+                                    final CardActor tempValueForChangingTable = (CardActor) eex;
+                                    cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[j][i]].toString());
+                                    tempValueForChangingTable.setDrawable(cardValue[0]);
+                                    i++;
+                                    if(i%10==0 && i != 0) {
+                                        i = 0;
+                                        j++;
+                                    }
+                                }
+                                click = !click; // IF PROPER CLICK, ELSE
+                            }
                         }
 
 
-                        log.debug("clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ());
+                        log.debug("click:"  + click + "clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ()+ " final " + finalColumn);
                     }
                 });
 
-                grid.add(cell).padRight(1.7f).padLeft(1.7f);
+                grid.add(cell).padRight(2f).padLeft(2f);
 
 
             }
-            grid.row().expand().padTop(-6);
+            grid.row().expand().padTop(-10);
 
         }
 
-        table.add(grid).row();
-        table.center();
-        table.setFillParent(true);
-        table.pack();
-        table.setPosition(
-                0,20
-        );
-        return table;
+
+       // grid.center();
+
+        grid.pack();
+        grid.setPosition(30,0 );
+
+        return grid;
     }
+
+
+
+    private void updateValues(int originRow, int originColumn, int destinationColumn) {
+        if(originColumn == destinationColumn)
+            return;
+        int destinationRow = getDestinationRow(destinationColumn);
+int offset=0;
+        for (int row = destinationRow; row < rows ; row++) {
+            Values[row][destinationColumn] = Values[originRow+offset][originColumn];
+            offset++;
+        }
+        for (int row = originRow; row < rows ; row++) {
+            //Values[destinationRow][destinationColumn] = Values[originRow][originColumn];
+            Values[row][originColumn] = 0;
+        }
+
+    }
+
+    private int getDestinationRow(int destinationColumn) {
+        for (int row = 0; row < rows ; row++) {
+            if (Values[row][destinationColumn] == 0)
+                return row;
+        }
+        return -1;
+    }
+
 
     private Actor createBackButton() {
         final TextButton backButton = new TextButton("Back", skin);
         backButton.setWidth(100);
-        backButton.setPosition(GameConfig.HUD_WIDTH / 2f - backButton.getWidth() / 2f, 20f);
+        backButton.setPosition(0, 20f);
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

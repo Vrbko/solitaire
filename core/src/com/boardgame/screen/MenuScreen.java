@@ -2,6 +2,7 @@ package com.boardgame.screen;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -101,9 +102,10 @@ public class MenuScreen extends ScreenAdapter {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen((Screen) new GameScreen(game));
             }
         });
+
 
         TextButton leaderboardButton = new TextButton("Leaderboard", skin);
         leaderboardButton.setColor(Color.BLACK);
