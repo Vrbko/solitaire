@@ -56,7 +56,7 @@ public class SettingsScreen extends ScreenAdapter {
     public void show() {
         viewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT);
         stage = new Stage(viewport, game.getBatch());
-        stage.setDebugAll(true);
+        stage.setDebugAll(false);
         stage.addActor(createUi());
         Gdx.input.setInputProcessor(stage);
     }

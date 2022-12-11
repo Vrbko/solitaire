@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -38,6 +39,7 @@ public class MenuScreen extends ScreenAdapter {
 
     private Skin skin;
     private TextureAtlas gameplayAtlas2;
+    private Texture background = new Texture((Gdx.files.internal("assets/MenuBackground.jpg")));
 
     public MenuScreen(BoardGame game) {
         this.game = game;
@@ -53,6 +55,7 @@ public class MenuScreen extends ScreenAdapter {
 
         gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY);
         stage.addActor(createUi());
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -67,6 +70,7 @@ public class MenuScreen extends ScreenAdapter {
 
         stage.act(delta);
         stage.draw();
+
     }
 
     @Override
@@ -84,9 +88,11 @@ public class MenuScreen extends ScreenAdapter {
         table.defaults().pad(20);
 
         TextureRegion backgroundRegion = gameplayAtlas2.findRegion(RegionNames.BACKGROUND);
-        table.setBackground(new TextureRegionDrawable(backgroundRegion));
+        table.setBackground(new TextureRegionDrawable(background));
 
-
+        stage.getBatch().begin();
+        stage.getBatch().draw(background, 0, 0, GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT);
+        stage.getBatch().end();
 
          TextButton introButton = new TextButton("Intro screen", skin);
         introButton.setColor(Color.BLACK);

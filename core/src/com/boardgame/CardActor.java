@@ -83,5 +83,17 @@ public class CardActor extends Image {
                 )
         );
     }
+
+    public void removeAnimation() {
+        setOrigin(Align.center);
+        addAction(
+                Actions.sequence(
+                        Actions.scaleTo(0, 0, 0.3f),
+                        Actions.delay(3.25f)
+
+                )
+        );
+
+    }
 }
 

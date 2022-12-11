@@ -34,11 +34,24 @@ public enum DeckValues {
         do{
             x = VALUES.get(RANDOM.nextInt(SIZE));
             occurrences = Collections.frequency(usedValues, x);
-        }while(occurrences  > 8);
+        }while(occurrences  > 7);
 
-        //log.debug("Occurrences: " + String.valueOf(occurrences) + "of " + x);
+       /* log.debug("ace " +  Collections.frequency(usedValues, DeckValues.ACE));
+        log.debug("2 " +  Collections.frequency(usedValues, DeckValues.TWO));
+        log.debug("3 " +  Collections.frequency(usedValues, DeckValues.THREE));
+        log.debug("4 " +  Collections.frequency(usedValues, DeckValues.FOUR));
+        log.debug("5 " +  Collections.frequency(usedValues, DeckValues.FIVE));
+        log.debug("6 " +  Collections.frequency(usedValues, DeckValues.SIX));
+        log.debug("7 " +  Collections.frequency(usedValues, DeckValues.SEVEN));
+        log.debug("8 " +  Collections.frequency(usedValues, DeckValues.EIGHT));
+        log.debug("9 " +  Collections.frequency(usedValues, DeckValues.NINE));
+        log.debug("10 " +  Collections.frequency(usedValues, DeckValues.TEN));
+        log.debug("j " +  Collections.frequency(usedValues, DeckValues.JACK));
+        log.debug("q " +  Collections.frequency(usedValues, DeckValues.QUEEN));
+        log.debug("k " +  Collections.frequency(usedValues, DeckValues.KING));*/
+
         usedValues.add(x);
-        //returnNumberOfOccurrences();
+        log.debug("Size " + usedValues.size());
         return x.toString();
     }
     private static final Logger log = new Logger(DeckValues.class.getSimpleName(), Logger.DEBUG);

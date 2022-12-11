@@ -12,8 +12,8 @@ import java.util.Random;
 public class RegionNames {
 
     public static final String BACKGROUND = "menu";
-    public static final String CARD_BACKGROUND= "card_background"; //preimenuj lepo
-    public static final String MENU_BACKGROUND = "menu_background";
+    public static final String CARD_BACKGROUND= "test2";
+    public static final String MENU_BACKGROUND = "car_background-test";
     public static final String BLANC = "blank";
 
     public static final String ACE = "ACE";
@@ -43,8 +43,8 @@ public class RegionNames {
         do{
              x = list.get(RANDOM.nextInt(SIZE));
              occurrences = Collections.frequency(usedValues, x);
-        }while(occurrences  > 4);
-
+        }while(occurrences  > 8);
+        if(occurrences == 8)
         log.debug("Occurrences: " + String.valueOf(occurrences) + "of " + x);
         usedValues.add(x);
         //returnNumberOfOccurrences();

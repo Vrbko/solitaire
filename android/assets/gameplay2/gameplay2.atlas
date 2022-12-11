@@ -4,128 +4,238 @@ size: 1024, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-ACE
+card-background-test5-2
   rotate: false
-  xy: 804, 849
-  size: 80, 122
-  orig: 80, 122
+  xy: 596, 471
+  size: 282, 449
+  orig: 282, 449
   offset: 0, 0
   index: -1
-EIGHT
+card_background-test4
   rotate: false
-  xy: 312, 347
-  size: 80, 122
-  orig: 80, 122
+  xy: 312, 472
+  size: 282, 448
+  orig: 282, 448
   offset: 0, 0
   index: -1
-FIVE
+card_background-test5
   rotate: false
-  xy: 804, 725
-  size: 80, 122
-  orig: 80, 122
+  xy: 2, 41
+  size: 282, 449
+  orig: 282, 449
   offset: 0, 0
   index: -1
-FOUR
+card_background-test6 
   rotate: false
-  xy: 886, 849
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-JACK
-  rotate: false
-  xy: 312, 223
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-KING
-  rotate: false
-  xy: 394, 347
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-NINE
-  rotate: false
-  xy: 804, 601
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-QUEEN
-  rotate: false
-  xy: 886, 725
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-SEVEN
-  rotate: false
-  xy: 312, 99
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-SIX
-  rotate: false
-  xy: 394, 223
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-TEN
-  rotate: false
-  xy: 476, 347
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-THREE
-  rotate: false
-  xy: 804, 477
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-TWO
-  rotate: false
-  xy: 886, 601
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-card_background
-  rotate: false
-  xy: 394, 99
-  size: 80, 122
-  orig: 80, 122
-  offset: 0, 0
-  index: -1
-menu
-  rotate: false
-  xy: 2, 471
-  size: 800, 500
-  orig: 800, 500
+  xy: 2, 492
+  size: 308, 428
+  orig: 308, 428
   offset: 0, 0
   index: -1
 menu_background
   rotate: false
-  xy: 2, 2
+  xy: 570, 2
   size: 308, 467
   orig: 308, 467
   offset: 0, 0
   index: -1
+test2
+  rotate: false
+  xy: 286, 21
+  size: 282, 449
+  orig: 282, 449
+  offset: 0, 0
+  index: -1
 
 gameplay2-2.png
-size: 512, 1024
+size: 1024, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-blank
+menu
+  rotate: false
+  xy: 2, 2
+  size: 1020, 638
+  orig: 1020, 638
+  offset: 0, 0
+  index: -1
+
+gameplay2-3.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+ACE
   rotate: false
   xy: 2, 2
   size: 404, 618
   orig: 404, 618
+  offset: 0, 0
+  index: -1
+EIGHT
+  rotate: false
+  xy: 408, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+
+gameplay2-4.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+FIVE
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+FOUR
+  rotate: false
+  xy: 408, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+
+gameplay2-5.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+JACK
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+KING
+  rotate: false
+  xy: 408, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+
+gameplay2-6.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+NINE
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+QUEEN
+  rotate: false
+  xy: 408, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+
+gameplay2-7.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+SEVEN
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+SIX
+  rotate: false
+  xy: 408, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+
+gameplay2-8.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+TEN
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+THREE
+  rotate: false
+  xy: 408, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+
+gameplay2-9.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+TWO
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+blank
+  rotate: false
+  xy: 408, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+
+gameplay2-10.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+card_background
+  rotate: false
+  xy: 2, 2
+  size: 404, 618
+  orig: 404, 618
+  offset: 0, 0
+  index: -1
+card_background-test2
+  rotate: false
+  xy: 408, 63
+  size: 369, 557
+  orig: 369, 557
+  offset: 0, 0
+  index: -1
+
+gameplay2-11.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+car_background-test
+  rotate: false
+  xy: 371, 2
+  size: 364, 554
+  orig: 364, 554
+  offset: 0, 0
+  index: -1
+card_background-test3
+  rotate: false
+  xy: 2, 2
+  size: 367, 554
+  orig: 367, 554
   offset: 0, 0
   index: -1
