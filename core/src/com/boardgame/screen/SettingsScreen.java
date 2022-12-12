@@ -31,6 +31,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boardgame.BoardGame;
+import com.boardgame.CardActor;
 import com.boardgame.assets.AssetDescriptors;
 import com.boardgame.assets.RegionNames;
 import com.boardgame.screen.config.GameConfig;
@@ -94,16 +95,40 @@ public class SettingsScreen extends ScreenAdapter {
         TextureRegion backgroundRegion = gameplayAtlas.findRegion(RegionNames.BACKGROUND);
         table.setBackground(new TextureRegionDrawable(backgroundRegion));
 
-
-        username = new TextField("Username", uiSkin);
+        String tempUsername = GameManager.INSTANCE.getUsername();
+        username = new TextField(tempUsername, uiSkin);
         username.addListener(new FocusListener() {
             public void keyboardFocusChanged(FocusListener.FocusEvent event, Actor actor, boolean focused) {
                 if(focused)
                   username.setText("");
             }
         });
-        toggleButton = new TextButton("Animacije", uiSkin, "toggle");
-        //toggleButton.setColor(BLACK);
+        toggleButton = new TextButton("", uiSkin, "toggle");
+        if(!GameManager.INSTANCE.isAnimation()){
+            toggleButton.toggle();
+            toggleButton.setText("Animacije: OFF");
+        }
+        else
+            toggleButton.setText("Animacije: ON");
+
+        toggleButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameManager.INSTANCE.setName(username.getText());
+                if(toggleButton.isChecked()) {
+                    GameManager.INSTANCE.setAnimation(false);
+                    toggleButton.setText("Animacije: OFF");
+                }
+                else {
+                    GameManager.INSTANCE.setAnimation(true);
+                    toggleButton.setText("Animacije: ON");
+                }
+
+
+            }
+        });
+
+
 
         TextButton backButton = new TextButton("Back", uiSkin);
         backButton.setColor(BLACK);
@@ -111,10 +136,6 @@ public class SettingsScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameManager.INSTANCE.setName(username.getText());
-                if(toggleButton.isChecked())
-                    GameManager.INSTANCE.setAnimation(true);
-                else
-                    GameManager.INSTANCE.setAnimation(false);
                 game.setScreen(new MenuScreen(game));
 
             }

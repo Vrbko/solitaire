@@ -2,6 +2,7 @@ package com.boardgame.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -33,24 +34,23 @@ public class GameScreen extends ScreenAdapter {
 
     private final BoardGame game;
     private final AssetManager assetManager;
-
     private Viewport viewport;
     private Viewport hudViewport;
-
     private Stage gameplayStage;
     private Stage hudStage;
-
     private Skin skin;
-    private TextureAtlas gameplayAtlas;
-    private static final int cols = 10, rows = 20;
     private Image infoImage;
+    private TextureAtlas gameplayAtlas;
 
-    private boolean click = true; // 1 - 0
+    private static final int cols = 10, rows = 20;
+    private int  numberOfDecksCompleted = 0 ;
     private int destinationRow, destinationColumn;
     private int originRow, originColumn;
+    private final int[][] Values = new int[25][10];
 
-    private int[][] Values = new int[25][10];
-    private boolean[][] FacingValues = new boolean[20][10];
+    private boolean click = true; // 1 - 0
+    private final boolean[][] FacingValues = new boolean[20][10];
+
     final Table mainGrid = new Table();
 
 
@@ -75,14 +75,11 @@ public class GameScreen extends ScreenAdapter {
                         FacingValues[row][column] = false;
                     }
                 }
-
                 else {
                     Values[row][column] = 0;
                     FacingValues[row-1][column] = true;
                 }
-
             }
-
     }
 
     @Override
@@ -99,6 +96,7 @@ public class GameScreen extends ScreenAdapter {
         gameplayStage.addActor(createGrid());
         gameplayStage.setDebugAll(false);
         hudStage.addActor(createDecks());
+        hudStage.addActor(createCompletedDecks());
         hudStage.addActor(createBackButton());
         Gdx.input.setInputProcessor(new InputMultiplexer(gameplayStage, hudStage));
     }
@@ -133,30 +131,23 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private Actor createGrid() {
-
         final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND)};
         final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BLANC);
-
 
         mainGrid.defaults().size(9f, 14f);   // all cells will be the same size
         mainGrid.setDebug(false);
 
-
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < cols; column++) {
-                if(FacingValues[row][column]) {
+                if(FacingValues[row][column])
                     cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[row][column]].toString());
-                }
                 else
                     cardValue[0] = gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND);
-
-
 
                 final CardActor cell = new CardActor(cardValue[0], row, column);
                 final TextureRegion finalCardValue = cardValue[0];
                 final int[] finalRow = {row};
                 final int finalColumn = column;
-
 
                 cell.addListener(new ClickListener() {
                     @Override
@@ -172,7 +163,6 @@ public class GameScreen extends ScreenAdapter {
                             else*/
                          return;
                         }
-
                         if (clickedCell.isMovable()) {
                             if (click){
                                 originRow = finalRow[0];
@@ -219,8 +209,100 @@ public class GameScreen extends ScreenAdapter {
             mainGrid.row().expand().padTop(-10f);//-10
         }
         mainGrid.pack();
-        mainGrid.setPosition(13, 0); // 13.0
+        mainGrid.setPosition(13.5f, 0); // 13.0
         return mainGrid;
+    }
+
+    private Actor createBackButton() {
+        final TextButton backButton = new TextButton("Back", skin);
+        backButton.setWidth(100);
+        backButton.setPosition(0, 20f);
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                RegionNames.resetCards();
+                game.setScreen(new MenuScreen(game));
+            }
+        });
+
+        return backButton;
+    }
+
+    private Actor createCompletedDecks() {
+        final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.BLANC)};
+        final Table table = new Table();
+        table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
+        table.defaults().size(100f, 140f);
+        final Table grid = new Table();
+        grid.defaults().size(1f, 1f);   // all cells will be the same size
+        grid.setDebug(false);
+        int cols = 5;
+        for (int column = 0; column < cols; column++) {
+            final CardActor cell = new CardActor(cardValue[0], -1, column);
+            final TextureRegion finalCardValue = cardValue[0];
+            table.add(cell).padTop(-120f).row();
+        }
+        table.center();
+
+        table.setFillParent(true);
+        table.pack();
+        table.setPosition(
+                -740, -320
+        );
+        return table;
+    }
+
+    private Actor createDecks() {
+        final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND)};
+        final Table table = new Table();
+        table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
+        table.defaults().size(100f, 140f);
+        final Table grid = new Table();
+        grid.defaults().size(1f, 1f);   // all cells will be the same size
+        grid.setDebug(false);
+        int cols = 5;
+        for (int column = 0; column < cols; column++) {
+            final CardActor cell = new CardActor(cardValue[0], -1, column);
+            final TextureRegion finalCardValue = cardValue[0];
+            cell.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
+                    if (clickedCell.isMovable()) {
+                        clickedCell.removeAnimation();
+                    }
+                    // log.debug("clicked x: " + x + " y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ());
+                    addOneCardToColumns();
+                    SnapshotArray<Actor> children = mainGrid.getChildren();
+                    int i = 0;
+                    int j = 0;
+                    for (Actor eex : children) {
+                        final CardActor tempValueForChangingTable = (CardActor) eex;
+                        if(FacingValues[j][i])
+                            cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[j][i]].toString());
+                        else
+                            cardValue[0] = gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND);
+                        tempValueForChangingTable.setDrawable(cardValue[0]);
+
+                        i++;
+                        if (i % 10 == 0 && i != 0) {
+                            i = 0;
+                            j++;
+                        }
+                    }
+                    isDeckCompleted(destinationColumn);
+                }
+            });
+            table.add(cell).padTop(-90f).row();
+        }
+        table.center();
+
+        table.setFillParent(true);
+        table.pack();
+        table.setPosition(
+                740, -320
+        );
+        return table;
     }
 
     private boolean doValuesDescend(int originRowFunction, int originColumnFunction) {
@@ -268,7 +350,17 @@ public class GameScreen extends ScreenAdapter {
         }
 
         isDeckCompleted(destinationColumn);
+        isGameEnd();
 
+    }
+
+    private void isGameEnd() {
+        if(numberOfDecksCompleted == 8)
+            game.setScreen((Screen) new GameOverScreen(game));
+        for(int i = 0 ;  i < cols ; i ++)
+            if (Values[0][i] != 0)
+               return;
+        game.setScreen((Screen) new GameOverScreen(game));
     }
 
     private void isDeckCompleted(int destinationColumn) {
@@ -283,17 +375,15 @@ public class GameScreen extends ScreenAdapter {
                 if(Values[row][destinationColumn] == temp -1 )
                     temp = Values[row][destinationColumn];
             }
-            if( temp == 0) { // ACE
-
-
+            if( temp == 0) {
                 for (int row = kingValue; row < rows; row++) {
                     Values[row][destinationColumn] = 0;
                    // log.debug("Removed: " + Values[row][destinationColumn]);
                 }
                 if(kingValue != 0) {
+                    numberOfDecksCompleted++;
                     FacingValues[kingValue-1][destinationColumn] = true;
                    // FacingValues[kingValue-2][destinationColumn] = true;
-
                 }
             }
             else
@@ -307,74 +397,6 @@ public class GameScreen extends ScreenAdapter {
                 return row;
         }
         return 0;
-    }
-
-    private Actor createBackButton() {
-        final TextButton backButton = new TextButton("Back", skin);
-        backButton.setWidth(100);
-        backButton.setPosition(0, 20f);
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                RegionNames.resetCards();
-                game.setScreen(new MenuScreen(game));
-            }
-        });
-
-        return backButton;
-    }
-
-    private Actor createDecks() {
-        final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND)};
-        final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BACKGROUND);
-        final Table table = new Table();
-        table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
-        table.defaults().size(100f, 140f);
-        final Table grid = new Table();
-        grid.defaults().size(1f, 1f);   // all cells will be the same size
-        grid.setDebug(false);
-        int cols = 5;
-        for (int column = 0; column < cols; column++) {
-            final CardActor cell = new CardActor(cardValue[0], -1, column);
-            final TextureRegion finalCardValue = cardValue[0];
-            cell.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
-                    if (clickedCell.isMovable()) {
-                        clickedCell.removeAnimation();
-                    }
-                   // log.debug("clicked x: " + x + " y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ());
-                    addOneCardToColumns();
-                    SnapshotArray<Actor> children = mainGrid.getChildren();
-                    int i = 0;
-                    int j = 0;
-                    for (Actor eex : children) {
-                        final CardActor tempValueForChangingTable = (CardActor) eex;
-                        if(FacingValues[j][i])
-                            cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[j][i]].toString());
-                        else
-                          cardValue[0] = gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND);
-                        tempValueForChangingTable.setDrawable(cardValue[0]);
-
-                        i++;
-                        if (i % 10 == 0 && i != 0) {
-                            i = 0;
-                            j++;
-                        }
-                    }
-                }
-            });
-            table.add(cell).padTop(-90f).row();
-        }
-        table.center();
-
-        table.setFillParent(true);
-        table.pack();
-        table.setPosition(
-                740, -320
-        );
-        return table;
     }
 
     private void addOneCardToColumns() {

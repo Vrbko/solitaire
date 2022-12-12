@@ -36,7 +36,11 @@ public enum DeckValues {
             occurrences = Collections.frequency(usedValues, x);
         }while(occurrences  > 7);
 
-       /* log.debug("ace " +  Collections.frequency(usedValues, DeckValues.ACE));
+
+
+        usedValues.add(x);
+
+        log.debug("ace " +  Collections.frequency(usedValues, DeckValues.ACE));
         log.debug("2 " +  Collections.frequency(usedValues, DeckValues.TWO));
         log.debug("3 " +  Collections.frequency(usedValues, DeckValues.THREE));
         log.debug("4 " +  Collections.frequency(usedValues, DeckValues.FOUR));
@@ -48,9 +52,7 @@ public enum DeckValues {
         log.debug("10 " +  Collections.frequency(usedValues, DeckValues.TEN));
         log.debug("j " +  Collections.frequency(usedValues, DeckValues.JACK));
         log.debug("q " +  Collections.frequency(usedValues, DeckValues.QUEEN));
-        log.debug("k " +  Collections.frequency(usedValues, DeckValues.KING));*/
-
-        usedValues.add(x);
+        log.debug("k " +  Collections.frequency(usedValues, DeckValues.KING));
         log.debug("Size " + usedValues.size());
         return x.toString();
     }

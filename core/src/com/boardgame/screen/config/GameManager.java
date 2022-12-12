@@ -13,6 +13,12 @@ public class GameManager {
 
     private GameManager() {
         PREFS = Gdx.app.getPreferences(BoardGame.class.getSimpleName());
+        String usernamePlayer = PREFS.getString("playerUsername", username);
+        boolean animationsToggle = PREFS.getBoolean("animations", animation);
+
+        this.username = usernamePlayer;
+        this.animation = animationsToggle;
+
     }
 
     public void setName(String username) {
@@ -23,18 +29,16 @@ public class GameManager {
 
     public void setAnimation(boolean toggle) {
         this.animation = toggle;
-        PREFS.putString("animations", toString(animation));
+        PREFS.putBoolean("animations", animation);
         PREFS.flush();
     }
 
-    private String toString(boolean animation) {
-        if(animation)
-            return "true";
-        else
-            return "false";
+    public boolean isAnimation() {
+        return animation;
     }
 
     public String getUsername() {
         return username;
     }
+
 }

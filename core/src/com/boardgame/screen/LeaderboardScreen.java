@@ -87,7 +87,7 @@ public class LeaderboardScreen extends ScreenAdapter {
         TextureRegion backgroundRegion = gameplayAtlas2.findRegion(RegionNames.BACKGROUND);
         table.setBackground(new TextureRegionDrawable(backgroundRegion));
 
-        TextButton backButton = new TextButton("Nazaj", skin);
+        TextButton backButton = new TextButton("Back", skin);
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

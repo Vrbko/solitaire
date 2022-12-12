@@ -103,6 +103,15 @@ public class MenuScreen extends ScreenAdapter {
              }
          });
 
+        TextButton outroButton = new TextButton("Outro screen", skin);
+        outroButton.setColor(Color.BLACK);
+        outroButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameOverScreen(game));
+            }
+        });
+
         TextButton playButton = new TextButton("Play", skin);
         playButton.setColor(Color.BLACK);
         playButton.addListener(new ClickListener() {
@@ -152,6 +161,7 @@ public class MenuScreen extends ScreenAdapter {
         buttonTable.add(welcomePlayer).padTop(60).row();
         buttonTable.add(playButton).padBottom(30).padTop(30).expandX().fillX().row();
         buttonTable.add(introButton).padBottom(30).expandX().fill().row();
+        buttonTable.add(outroButton).padBottom(30).expandX().fill().row();
         buttonTable.add(leaderboardButton).padBottom(30).fillX().row();
         buttonTable.add(settingsButton).padBottom(30).fillX().row();
         buttonTable.add(quitButton).padBottom(60).fillX().row();

@@ -8,10 +8,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Logger;
 import com.boardgame.assets.AssetDescriptors;
+import com.boardgame.screen.GameOverScreen;
 import com.boardgame.screen.GameScreen;
 import com.boardgame.screen.IntroScreen;
 import com.boardgame.screen.MenuScreen;
 import com.boardgame.screen.SettingsScreen;
+import com.boardgame.screen.config.GameManager;
 
 public class BoardGame extends Game {
 	private AssetManager assetManager;
@@ -31,7 +33,12 @@ public class BoardGame extends Game {
 
 		assetManager.load(AssetDescriptors.GAMEPLAY);
 		assetManager.finishLoading();   // blocks until all assets are loaded
-		setScreen(new MenuScreen(this));
+		//setScreen(new GameOverScreen(this));
+		if(GameManager.INSTANCE.isAnimation())
+			setScreen(new IntroScreen(this));
+		else
+			setScreen(new MenuScreen(this));
+
 	}
 
 
