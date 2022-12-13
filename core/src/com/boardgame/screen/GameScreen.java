@@ -1,5 +1,6 @@
 package com.boardgame.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -27,6 +28,7 @@ import com.boardgame.DeckValues;
 import com.boardgame.assets.AssetDescriptors;
 import com.boardgame.assets.RegionNames;
 import com.boardgame.screen.config.GameConfig;
+import com.boardgame.screen.config.GameManager;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -221,6 +223,9 @@ public class GameScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 RegionNames.resetCards();
+
+
+                GameManager.INSTANCE.updatePlayer(GameManager.INSTANCE.getUsername(),false);
                 game.setScreen(new MenuScreen(game));
             }
         });
@@ -355,11 +360,15 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void isGameEnd() {
-        if(numberOfDecksCompleted == 8)
+        if(numberOfDecksCompleted == 8) {
+            GameManager.INSTANCE.updatePlayer(GameManager.INSTANCE.getUsername(),true);
             game.setScreen((Screen) new GameOverScreen(game));
+        }
         for(int i = 0 ;  i < cols ; i ++)
             if (Values[0][i] != 0)
                return;
+
+        GameManager.INSTANCE.updatePlayer(GameManager.INSTANCE.getUsername(),true);
         game.setScreen((Screen) new GameOverScreen(game));
     }
 

@@ -23,9 +23,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boardgame.BoardGame;
+import com.boardgame.Player;
 import com.boardgame.assets.AssetDescriptors;
 import com.boardgame.assets.RegionNames;
 import com.boardgame.screen.config.GameConfig;
+import com.boardgame.screen.config.GameManager;
 
 
 public class LeaderboardScreen extends ScreenAdapter {
@@ -82,7 +84,7 @@ public class LeaderboardScreen extends ScreenAdapter {
     private Actor createUi() {
 
         Table table = new Table();
-        table.defaults().pad(20);
+        table.defaults();
 
         TextureRegion backgroundRegion = gameplayAtlas2.findRegion(RegionNames.BACKGROUND);
         table.setBackground(new TextureRegionDrawable(backgroundRegion));
@@ -95,22 +97,57 @@ public class LeaderboardScreen extends ScreenAdapter {
             }
         });
         backButton.setColor(Color.BLACK);
-        Object[] listEntries = {"Vrbko: 192 - 1m55s", "Joza: 202 - 2m15s", "Franci: 303 - 4m22s","Brozo: 665 - 11m05s","Adam: 1024 - 22m44s"};
 
+
+
+        final Label gameUserText = new Label("Username", skin);
+        final Label gameTriesText = new Label("Tries", skin);
+        final Label gameWinsText = new Label("Wins", skin);
+        gameUserText.setColor(Color.BLACK);
+        gameTriesText.setColor(Color.BLACK);
+        gameWinsText.setColor(Color.BLACK);
+
+        gameUserText.setFontScale(1.5f);
+        gameTriesText.setFontScale(1.5f);
+        gameWinsText.setFontScale(1.5f);
 
         Table buttonTable = new Table();
         buttonTable.defaults().padLeft(30).padRight(30);
         TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.MENU_BACKGROUND);
         buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
-        List list = new List(skin);
-        list.setItems(listEntries);
-        list.setColor(Color.BLACK);
+       // List list = new List(skin);
+
+        buttonTable.add(gameUserText).padTop(40);
+        buttonTable.add(gameWinsText).padTop(40);
+        buttonTable.add(gameTriesText).padTop(40);
+        buttonTable.row().expand();
+
+        for (Player temp: GameManager.INSTANCE.getPlayerList()){
+            final Label gameUser = new Label(temp.getUsername(), skin);
+            final Label gameTries = new Label(GameManager.INSTANCE.getTries(temp.getUsername()), skin);
+            final Label gameWins = new Label(GameManager.INSTANCE.getScore(temp.getUsername()), skin);
+            gameUser.setColor(Color.RED);
+            gameTries.setColor(Color.RED);
+            gameWins.setColor(Color.RED);
+            gameUser.setFontScale(1.5f);
+            gameTries.setFontScale(1.5f);
+            gameWins.setFontScale(1.5f);
+
+            buttonTable.add(gameUser);
+            buttonTable.add(gameWins);
+            buttonTable.add(gameTries);
+            buttonTable.row().padTop(-460f).expand();
+
+        }
 
 
-        list.getSelection().setMultiple(true);
-        list.getSelection().setRequired(false);
 
-        buttonTable.add(list).padTop(30).padBottom(30).padTop(30).expandX().fillX().row();
+
+
+       // list.getSelection().setMultiple(true);
+        //list.getSelection().setRequired(false);
+
+      //  buttonTable.add(list).padTop(30).padBottom(30).padTop(30).expandX().fillX().row();
         buttonTable.add(backButton).padBottom(30).padLeft(15).padRight(15).expandX().row();
         //buttonTable.add(playButton).padBottom(15).expandX().fill().row();
 

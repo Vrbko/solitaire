@@ -7,6 +7,7 @@ import static com.badlogic.gdx.graphics.Color.RED;
 import static com.badlogic.gdx.graphics.Color.VIOLET;
 import static com.badlogic.gdx.graphics.Color.YELLOW;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -136,6 +137,7 @@ public class SettingsScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameManager.INSTANCE.setName(username.getText());
+                GameManager.INSTANCE.addPlayer(username.getText());
                 game.setScreen(new MenuScreen(game));
 
             }
