@@ -32,6 +32,8 @@ public class GameManager {
         listPlayers = new ArrayList<Player>();
 
         JsonReader jsonReader = new JsonReader();
+
+        if(file.exists()){
         JsonValue values = jsonReader.parse(Gdx.files.internal(file.path()));
         for (JsonValue value : values) {
             Player temp = new Player(value.get("username").asString(), value.get("wins").asInt(), value.get("nr_tries").asInt());
@@ -39,9 +41,10 @@ public class GameManager {
         }
         Collections.sort(listPlayers, new Comparator<Player>(){
             public int compare(Player s1, Player s2) {
-                return s1.getWins() - s2.getWins();
+                return s2.getWins() - s1.getWins();
             }
         });
+        }
         PREFS = Gdx.app.getPreferences(BoardGame.class.getSimpleName());
         String usernamePlayer = PREFS.getString("playerUsername", username);
         boolean animationsToggle = PREFS.getBoolean("animations", animation);
@@ -111,5 +114,11 @@ public class GameManager {
 
     public ArrayList<Player> getPlayerList() {
         return listPlayers;
+    }
+
+    public CharSequence getPrecentage(String username) {
+        int index = listPlayers.indexOf(new Player(username));
+        Player temp = listPlayers.get(index);
+        return ""+temp.getPercentage();
     }
 }

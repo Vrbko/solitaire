@@ -54,7 +54,7 @@ public class GameScreen extends ScreenAdapter {
     private final boolean[][] FacingValues = new boolean[20][10];
 
     final Table mainGrid = new Table();
-
+    final Table completedDeck = new Table();
 
     public GameScreen(BoardGame game) {
        // mainGrid.defaults().size()
@@ -235,26 +235,23 @@ public class GameScreen extends ScreenAdapter {
 
     private Actor createCompletedDecks() {
         final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.BLANC)};
-        final Table table = new Table();
-        table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
-        table.defaults().size(100f, 140f);
-        final Table grid = new Table();
-        grid.defaults().size(1f, 1f);   // all cells will be the same size
-        grid.setDebug(false);
-        int cols = 5;
+        completedDeck.setDebug(false);   // turn on all debug lines (table, cell, and widget)
+        completedDeck.defaults().size(100f, 140f);
+
+        int cols = 8;
         for (int column = 0; column < cols; column++) {
             final CardActor cell = new CardActor(cardValue[0], -1, column);
             final TextureRegion finalCardValue = cardValue[0];
-            table.add(cell).padTop(-120f).row();
+            completedDeck.add(cell).padTop(-120f).row();
         }
-        table.center();
+        completedDeck.center();
 
-        table.setFillParent(true);
-        table.pack();
-        table.setPosition(
+        completedDeck.setFillParent(true);
+        completedDeck.pack();
+        completedDeck.setPosition(
                 -740, -320
         );
-        return table;
+        return completedDeck;
     }
 
     private Actor createDecks() {
@@ -393,10 +390,20 @@ public class GameScreen extends ScreenAdapter {
                     numberOfDecksCompleted++;
                     FacingValues[kingValue-1][destinationColumn] = true;
                    // FacingValues[kingValue-2][destinationColumn] = true;
+                    SnapshotArray<Actor> children = completedDeck.getChildren();
+                    int i = 0;
+
+                    for (Actor eex : children) {
+                        if(i == numberOfDecksCompleted || numberOfDecksCompleted == 8)
+                            break;
+                        final CardActor tempValueForChangingTable = (CardActor) eex;
+                        tempValueForChangingTable.setDrawable( gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND));
+                        i++;
+                    }
                 }
             }
             else
-                log.debug("KOVK PA JE TEMP: " + temp);
+                log.debug("TEMP: " + temp);
         }
     }
 

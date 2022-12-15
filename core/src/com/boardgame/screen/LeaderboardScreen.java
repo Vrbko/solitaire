@@ -98,45 +98,55 @@ public class LeaderboardScreen extends ScreenAdapter {
         });
         backButton.setColor(Color.BLACK);
 
-
+        backButton.sizeBy(2f);
 
         final Label gameUserText = new Label("Username", skin);
         final Label gameTriesText = new Label("Tries", skin);
         final Label gameWinsText = new Label("Wins", skin);
+        final Label gamePercentage = new Label("Percentage", skin);
         gameUserText.setColor(Color.BLACK);
         gameTriesText.setColor(Color.BLACK);
         gameWinsText.setColor(Color.BLACK);
+        gamePercentage.setColor(Color.BLACK);
 
         gameUserText.setFontScale(1.5f);
         gameTriesText.setFontScale(1.5f);
         gameWinsText.setFontScale(1.5f);
+        gamePercentage.setFontScale(1.5f);
 
         Table buttonTable = new Table();
         buttonTable.defaults().padLeft(30).padRight(30);
+
         TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.MENU_BACKGROUND);
         buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
        // List list = new List(skin);
-
-        buttonTable.add(gameUserText).padTop(40);
-        buttonTable.add(gameWinsText).padTop(40);
-        buttonTable.add(gameTriesText).padTop(40);
+        buttonTable.add(backButton).padTop(30).padLeft(50).expandX().row();
+        buttonTable.add(gameUserText).padTop(20);
+        buttonTable.add(gameWinsText).padTop(20);
+        buttonTable.add(gameTriesText).padTop(20);
+       // buttonTable.add(gamePercentage).padTop(20);
         buttonTable.row().expand();
 
         for (Player temp: GameManager.INSTANCE.getPlayerList()){
             final Label gameUser = new Label(temp.getUsername(), skin);
             final Label gameTries = new Label(GameManager.INSTANCE.getTries(temp.getUsername()), skin);
             final Label gameWins = new Label(GameManager.INSTANCE.getScore(temp.getUsername()), skin);
-            gameUser.setColor(Color.RED);
+            final Label gamePercentageScore = new Label(GameManager.INSTANCE.getPrecentage(temp.getUsername()), skin);
+            gameUser.setColor(Color.BLACK);
             gameTries.setColor(Color.RED);
             gameWins.setColor(Color.RED);
+            gamePercentageScore.setColor(Color.RED);
+
             gameUser.setFontScale(1.5f);
             gameTries.setFontScale(1.5f);
             gameWins.setFontScale(1.5f);
+            gamePercentageScore.setFontScale(1.5f);
 
             buttonTable.add(gameUser);
             buttonTable.add(gameWins);
             buttonTable.add(gameTries);
-            buttonTable.row().padTop(-460f).expand();
+          //  buttonTable.add(gamePercentageScore);
+            buttonTable.row().expand();
 
         }
 
@@ -148,7 +158,7 @@ public class LeaderboardScreen extends ScreenAdapter {
         //list.getSelection().setRequired(false);
 
       //  buttonTable.add(list).padTop(30).padBottom(30).padTop(30).expandX().fillX().row();
-        buttonTable.add(backButton).padBottom(30).padLeft(15).padRight(15).expandX().row();
+
         //buttonTable.add(playButton).padBottom(15).expandX().fill().row();
 
 
