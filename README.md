@@ -29,4 +29,8 @@ ___
 
 ## Game Example
 ___
-![Solitaire](solitaire.PNG)
+- Screenshot
+ ![Solitaire](solitaire.PNG)
+
+- Video 
+ [![Primer igre](https://img.youtube.com/vi/j_R70Ex7vjk/hqdefault.jpg)](https://www.youtube.com/watch?v=j_R70Ex7vjk)
