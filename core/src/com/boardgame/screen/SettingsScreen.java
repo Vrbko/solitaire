@@ -91,7 +91,7 @@ public class SettingsScreen extends ScreenAdapter {
         table.defaults().pad(20);
 
         Skin uiSkin = assetManager.get(AssetDescriptors.UI_SKIN);
-        TextureAtlas gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
+        TextureAtlas gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY2);
 
         TextureRegion backgroundRegion = gameplayAtlas.findRegion(RegionNames.BACKGROUND);
         table.setBackground(new TextureRegionDrawable(backgroundRegion));

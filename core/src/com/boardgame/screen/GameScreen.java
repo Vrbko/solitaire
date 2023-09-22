@@ -93,7 +93,7 @@ public class GameScreen extends ScreenAdapter {
         hudStage = new Stage(hudViewport, game.getBatch());
 
         skin = assetManager.get(AssetDescriptors.UI_SKIN);
-        gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
+        gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY2);
 
         gameplayStage.addActor(createGrid());
         gameplayStage.setDebugAll(false);

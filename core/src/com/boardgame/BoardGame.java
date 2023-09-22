@@ -31,7 +31,7 @@ public class BoardGame extends Game {
 		assetManager.load(AssetDescriptors.UI_FONT);
 		assetManager.load(AssetDescriptors.UI_SKIN);
 
-		assetManager.load(AssetDescriptors.GAMEPLAY);
+		assetManager.load(AssetDescriptors.GAMEPLAY2);
 		assetManager.finishLoading();   // blocks until all assets are loaded
 		//setScreen(new GameOverScreen(this));
 		if(GameManager.INSTANCE.isAnimation())

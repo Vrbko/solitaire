@@ -41,7 +41,7 @@ public class IntroScreen extends ScreenAdapter {
         viewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT);
         stage = new Stage(viewport, game.getBatch());
 
-        gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY);
+        gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY2);
 
         for (int i = 0; i < 5; i++)
             stage.addActor(createDeck(i));

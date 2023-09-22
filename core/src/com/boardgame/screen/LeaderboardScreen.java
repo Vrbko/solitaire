@@ -53,7 +53,7 @@ public class LeaderboardScreen extends ScreenAdapter {
 
         skin = assetManager.get(AssetDescriptors.UI_SKIN);
 
-        gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY);
+        gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY2);
         stage.addActor(createUi());
         Gdx.input.setInputProcessor(stage);
     }

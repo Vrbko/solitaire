@@ -15,10 +15,10 @@ public class AssetDescriptors {
             new AssetDescriptor<Skin>(AssetPaths.UI_SKIN, Skin.class);
 
 
-    public static final AssetDescriptor<TextureAtlas> GAMEPLAY =
-            new AssetDescriptor<TextureAtlas>(AssetPaths.GAMEPLAY2, TextureAtlas.class);
+    //public static final AssetDescriptor<TextureAtlas> GAMEPLAY =
+    //      new AssetDescriptor<TextureAtlas>(AssetPaths.GAMEPLAY, TextureAtlas.class);
     public static final AssetDescriptor<TextureAtlas> GAMEPLAY2 =
-            new AssetDescriptor<TextureAtlas>(AssetPaths.GAMEPLAY, TextureAtlas.class);
+            new AssetDescriptor<TextureAtlas>(AssetPaths.GAMEPLAY2, TextureAtlas.class);
 
     private AssetDescriptors() {
     }

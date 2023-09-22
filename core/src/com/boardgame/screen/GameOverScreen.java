@@ -58,7 +58,7 @@ public class GameOverScreen extends ScreenAdapter {
 
         skin = assetManager.get(AssetDescriptors.UI_SKIN);
 
-        gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY);
+        gameplayAtlas2 = assetManager.get(AssetDescriptors.GAMEPLAY2);
         stage.addActor(createMenuButton());
         stage.addActor(createLeaderboardButton());
         stage.addActor(createPlayAgainButton());
