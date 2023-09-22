@@ -43,7 +43,7 @@ public class GameOverScreen extends ScreenAdapter {
 
     private Skin skin;
     private TextureAtlas gameplayAtlas2;
-    private Texture background = new Texture((Gdx.files.internal("assets/MenuBackground.jpg")));
+    private Texture background = new Texture((Gdx.files.internal("assets/badlogic.jpg")));
 
     public GameOverScreen(BoardGame game) {
         this.game = game;

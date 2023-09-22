@@ -39,7 +39,7 @@ public class MenuScreen extends ScreenAdapter {
 
     private Skin skin;
     private TextureAtlas gameplayAtlas2;
-    private Texture background = new Texture((Gdx.files.internal("assets/MenuBackground.jpg")));
+    private Texture background = new Texture((Gdx.files.internal("badlogic.jpg")));
 
     public MenuScreen(BoardGame game) {
         this.game = game;
