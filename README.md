@@ -15,7 +15,7 @@ ___
 - Movement of the cards.
 - New cards from stack facing down.
 - Full stacks get send to a pile.
-- Checking proper values (Descencind order).
+- Checking proper values (Descending order).
 - Score
 - Nr. of moves
 

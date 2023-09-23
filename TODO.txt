@@ -1,0 +1,13 @@
+Important:
+Da se lahk povsod klikne na karti.
+Max kart, da nena overflowa na screenu
+Prva vrsta if prazna, tist robe
+
+Visual:
+Animacija kadar en pack nardis
+V winner screen remove buttons dok ni konc animacije
+Illegalni move, mogoc kak sound + alert kje
+Fonti da so lepsi
+Leaderboard gleda goofy
+
+
