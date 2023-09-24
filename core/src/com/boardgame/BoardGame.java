@@ -1,6 +1,7 @@
 package com.boardgame;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Application;
@@ -18,6 +19,7 @@ import com.boardgame.screen.config.GameManager;
 public class BoardGame extends Game {
 	private AssetManager assetManager;
 	private SpriteBatch batch;
+
 	Texture img;
 	
 	@Override
@@ -34,6 +36,10 @@ public class BoardGame extends Game {
 		assetManager.load(AssetDescriptors.GAMEPLAY2);
 		assetManager.finishLoading();   // blocks until all assets are loaded
 		//setScreen(new GameOverScreen(this));
+
+
+
+
 		if(GameManager.INSTANCE.isAnimation())
 			setScreen(new IntroScreen(this));
 		else
@@ -56,5 +62,6 @@ public class BoardGame extends Game {
 	public SpriteBatch getBatch() {
 		return batch;
 	}
+
 
 }

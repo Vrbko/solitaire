@@ -47,6 +47,7 @@ public class SettingsScreen extends ScreenAdapter {
     private Stage stage;
 
     private TextButton toggleButton;
+    private TextButton toggleAudioButton;
     private TextField username;
 
     public SettingsScreen(BoardGame game) {
@@ -104,6 +105,7 @@ public class SettingsScreen extends ScreenAdapter {
                   username.setText("");
             }
         });
+
         toggleButton = new TextButton("", uiSkin, "toggle");
         if(!GameManager.INSTANCE.isAnimation()){
             toggleButton.toggle();
@@ -130,6 +132,32 @@ public class SettingsScreen extends ScreenAdapter {
         });
 
 
+        toggleAudioButton = new TextButton("", uiSkin, "toggle");
+        if(!GameManager.INSTANCE.isAudio()){
+            toggleAudioButton.toggle();
+            toggleAudioButton.setText("Audio: OFF");
+        }
+        else
+            toggleAudioButton.setText("Audio: ON");
+
+        toggleAudioButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameManager.INSTANCE.setName(username.getText());
+                if(toggleAudioButton.isChecked()) {
+                    GameManager.INSTANCE.setAudio(false);
+                    GameManager.INSTANCE.stopMusic();
+                    toggleAudioButton.setText("Audio: OFF");
+                }
+                else {
+                    GameManager.INSTANCE.setAudio(true);
+                    GameManager.INSTANCE.startMusic();
+                    toggleAudioButton.setText("Audio: ON");
+                }
+
+
+            }
+        });
 
         TextButton backButton = new TextButton("Back", uiSkin);
         backButton.setColor(BLACK);
@@ -143,11 +171,13 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
 
+
         TextureRegion menuBackground = gameplayAtlas.findRegion(RegionNames.MENU_BACKGROUND);
 
         Table contentTable = new Table(uiSkin);
         contentTable.setBackground(new TextureRegionDrawable(menuBackground));
         contentTable.add(toggleButton).padTop(20).row();
+        contentTable.add(toggleAudioButton).padTop(40).row();
         contentTable.add(username).padLeft(30).padRight(30).padTop(30).row();
         contentTable.add(backButton).width(100).padTop(30).padBottom(20).colspan(3);
 

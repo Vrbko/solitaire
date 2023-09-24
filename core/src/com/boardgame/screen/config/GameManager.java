@@ -3,6 +3,7 @@ package com.boardgame.screen.config;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
@@ -21,10 +22,15 @@ public class GameManager {
     private static final Logger log = new Logger(GameScreen.class.getSimpleName(), Logger.DEBUG);
     private final Preferences PREFS;
     private boolean animation = false;
+
+    private boolean audio = false;
     private String username = "Unknown Soldier";
     private ArrayList<Player> listPlayers ;
     private Json json ;
     private FileHandle file ;
+
+    private Music menuMusic;
+
 
     private GameManager() {
         file = Gdx.files.local("scores.json");
@@ -32,6 +38,7 @@ public class GameManager {
         listPlayers = new ArrayList<Player>();
 
         JsonReader jsonReader = new JsonReader();
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("teufel.ogg"));
 
         if(file.exists()){
         JsonValue values = jsonReader.parse(Gdx.files.internal(file.path()));
@@ -48,12 +55,25 @@ public class GameManager {
         PREFS = Gdx.app.getPreferences(BoardGame.class.getSimpleName());
         String usernamePlayer = PREFS.getString("playerUsername", username);
         boolean animationsToggle = PREFS.getBoolean("animations", animation);
-
+        boolean audioToggle = PREFS.getBoolean("audio", audio);
         this.username = usernamePlayer;
         this.animation = animationsToggle;
 
+        this.audio = audioToggle;
+
+        if(this.audio)
+            this.startMusic();
+    }
+    public void stopMusic() {
+        if(menuMusic.isPlaying())
+            menuMusic.stop();
     }
 
+    public void startMusic() {
+        menuMusic.setLooping(true);
+        menuMusic.play();
+
+    }
 
     public void setName(String username) {
         this.username = username;
@@ -68,9 +88,21 @@ public class GameManager {
         PREFS.putBoolean("animations", animation);
         PREFS.flush();
     }
+    public void setAudio(boolean toggle) {
+        this.audio = toggle;
+        if(toggle){
+
+        }
+        PREFS.putBoolean("audio", audio);
+        PREFS.flush();
+    }
 
     public boolean isAnimation() {
         return animation;
+    }
+
+    public boolean isAudio() {
+        return audio;
     }
 
     public String getUsername() {

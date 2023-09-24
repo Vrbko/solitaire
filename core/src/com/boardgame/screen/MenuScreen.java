@@ -1,10 +1,12 @@
 package com.boardgame.screen;
 
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -44,6 +46,8 @@ public class MenuScreen extends ScreenAdapter {
     public MenuScreen(BoardGame game) {
         this.game = game;
         assetManager = game.getAssetManager();
+
+
     }
 
     @Override
