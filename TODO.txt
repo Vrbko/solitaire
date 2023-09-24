@@ -1,7 +1,7 @@
 TODO: Important:
-Da se lahk povsod klikne na karti.
 Max kart, da nena overflowa na screenu
 Prva vrsta if prazna, tist robe
+If clicked, rob
 
 Visual:
 Animacija kadar en pack nardis
@@ -9,8 +9,11 @@ V winner screen remove buttons dok ni konc animacije
 Illegalni move, mogoc kak sound + alert kje + illegal move da se shaka
 Fonti da so lepsi
 Leaderboard gleda goofy
-Settings- intro animations... dodaj alpa priemenuj
-Moves counter, score ?
+Settings - intro animations... dodaj alpa priemenuj
+Move counter-score
+
+TESTING + UPDATING
+    Da se lahk povsod klikne na karti.
 
 
 DONE:

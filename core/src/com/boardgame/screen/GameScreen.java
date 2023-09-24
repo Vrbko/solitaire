@@ -1,5 +1,7 @@
 package com.boardgame.screen;
 
+import static com.boardgame.assets.RegionNames.BLANC;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -134,11 +137,11 @@ public class GameScreen extends ScreenAdapter {
 
     private Actor createGrid() {
         final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND)};
-        final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BLANC);
+        //final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BLANC);
 
-        mainGrid.defaults().size(9f, 14f);   // all cells will be the same size
-        mainGrid.setDebug(false);
-
+        mainGrid.defaults().size(8, 12);   // all cells will be the same size
+        mainGrid.setDebug(true);
+//TODO TULE ROWS SAM OD GOR NE DOL IF PROPER
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < cols; column++) {
                 if(FacingValues[row][column])
@@ -155,6 +158,7 @@ public class GameScreen extends ScreenAdapter {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
+
                         if (Values[finalRow[0]][finalColumn] == 0 && finalRow[0] != 0){
                             /*int temp = getDestinationRow(finalColumn);
                             log.debug("TEMP " + temp + " row " + finalRow[0]);
@@ -163,37 +167,114 @@ public class GameScreen extends ScreenAdapter {
                                 finalRow[0] = temp;
                             }
                             else*/
-                         return;
+
+                            //log.debug("impoper clikc?:"  + click + "clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ()+ " final " + finalColumn);
+
+                            //get last value of cloumn
+                            log.debug("\nfunc  "  + " indexI" + cell.returnIndexI() + " indeJ" + cell.returnIndexJ() + " lastI " + getDestinationRow(cell.returnIndexJ()));
+                            if(getDestinationRow(cell.returnIndexJ()) >= cell.returnIndexI()-4  ){
+                               // log.debug("gucci  ");
+
+
+
+
+
+                                if (click){ //StartClick
+                                    SnapshotArray<Actor> children = mainGrid.getChildren();
+                                    int i = 0;
+                                    for (Actor eex : children) {
+                                        final CardActor tempValueForChangingTable = (CardActor) eex;
+                                        if(i == (10*(getDestinationRow(cell.returnIndexJ())-1) + cell.returnIndexJ() ))
+                                            tempValueForChangingTable.selectedAnimation();
+                                        i++;
+                                    }
+
+                                    originRow = getDestinationRow(cell.returnIndexJ())-1;
+                                    originColumn = (cell.returnIndexJ());
+                                    log.debug("gucci startclick za row " + originRow + "col " + originColumn);
+                                    click = !click;
+
+                                }
+                                else { //Destination click
+                                    SnapshotArray<Actor> children = mainGrid.getChildren();
+                                    int i = 0;
+                                    for (Actor eex : children) {
+                                        final CardActor tempValueForChangingTable = (CardActor) eex;
+                                        if(i == (10*(getDestinationRow(cell.returnIndexJ())-1) + cell.returnIndexJ() ))
+                                            tempValueForChangingTable.improperSelection();
+                                        i++;
+                                    }
+
+
+                                    destinationColumn = (cell.returnIndexJ());
+                                    log.debug("gucci dest lick org col " + originColumn + " dest col " + destinationColumn);
+                                    if(originColumn==destinationColumn){
+                                        click=!click;
+                                        // clickedCell.improperSelection();
+                                        return;
+                                    }
+                                    log.debug("calling updATEvalues function " + originRow +" , "+ originColumn+ " ," + destinationColumn);
+
+                                    updateValues(originRow, originColumn, destinationColumn);
+                                    children = mainGrid.getChildren();
+                                    i = 0;
+                                    int j = 0;
+                                    for (Actor eex : children) {
+                                        final CardActor tempValueForChangingTable = (CardActor) eex;
+                                        if(FacingValues[j][i])
+                                            cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[j][i]].toString());
+                                        else
+                                            cardValue[0] = gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND);
+                                        tempValueForChangingTable.setDrawable(cardValue[0]);
+
+                                        i++;
+                                        if (i % 10 == 0 && i != 0) {
+                                            i = 0;
+                                            j++;
+                                        }
+                                    }
+                                    click = !click; // IF PROPER CLICK, ELSE
+                                }
+
+                            }
+
+
+
+
+                         //   return;
                         }
-                        if (clickedCell.isMovable()) {
-                            if (click){
+                        else {
+                            if (click) { //StartClick
                                 originRow = finalRow[0];
                                 originColumn = finalColumn;
                                 if (!doValuesDescend(originRow, originColumn)) { //improper
                                     clickedCell.improperSelection();
-                                   // log.debug("improper");
-                                }
-                                else {
+                                    // log.debug("improper");
+                                } else {
                                     click = !click;
                                     clickedCell.selectedAnimation();
-                                  //  log.debug("proper");
+                                    //  log.debug("proper");
                                 }
-                            }
-                            else {
+                            } else { //Destination click
                                 destinationColumn = finalColumn;
-                                if(originColumn==destinationColumn)
+                                if (originColumn == destinationColumn) {
+                                    clickedCell.improperSelection();
+                                    click = !click;
                                     return;
+                                }
+
                                 updateValues(originRow, originColumn, destinationColumn);
                                 SnapshotArray<Actor> children = mainGrid.getChildren();
                                 int i = 0;
                                 int j = 0;
                                 for (Actor eex : children) {
                                     final CardActor tempValueForChangingTable = (CardActor) eex;
-                                    if(FacingValues[j][i])
+                                    if (FacingValues[j][i])
                                         cardValue[0] = gameplayAtlas.findRegion(DeckValues.values()[Values[j][i]].toString());
                                     else
                                         cardValue[0] = gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND);
                                     tempValueForChangingTable.setDrawable(cardValue[0]);
+
                                     i++;
                                     if (i % 10 == 0 && i != 0) {
                                         i = 0;
@@ -202,16 +283,20 @@ public class GameScreen extends ScreenAdapter {
                                 }
                                 click = !click; // IF PROPER CLICK, ELSE
                             }
+
                         }
-                        //  log.debug("click:"  + click + "clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ()+ " final " + finalColumn);
+                         log.debug("Izveden update properclick:"  + click + "clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ()+ " final " + finalColumn);
                     }
                 });
+
                 mainGrid.add(cell).padRight(2f).padLeft(2f); //2f
             }
             mainGrid.row().expand().padTop(-10f);//-10
         }
         mainGrid.pack();
-        mainGrid.setPosition(13.5f, 0); // 13.0
+       // mainGrid.setPosition(10f, 22.5f); // 13.0
+        mainGrid.setPosition(Gdx.graphics.getWidth()/20f, Gdx.graphics.getHeight()/20f+10,  Align.center);
+
         return mainGrid;
     }
 
@@ -234,7 +319,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private Actor createCompletedDecks() {
-        final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.BLANC)};
+        final TextureRegion[] cardValue = {gameplayAtlas.findRegion(BLANC)};
         completedDeck.setDebug(false);   // turn on all debug lines (table, cell, and widget)
         completedDeck.defaults().size(100f, 140f);
 
@@ -259,9 +344,9 @@ public class GameScreen extends ScreenAdapter {
         final Table table = new Table();
         table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
         table.defaults().size(100f, 140f);
-        final Table grid = new Table();
-        grid.defaults().size(1f, 1f);   // all cells will be the same size
-        grid.setDebug(false);
+        //final Table grid = new Table();
+       // grid.defaults().size(1f, 1f);   // all cells will be the same size
+       // grid.setDebug(false);
         int cols = 5;
         for (int column = 0; column < cols; column++) {
             final CardActor cell = new CardActor(cardValue[0], -1, column);

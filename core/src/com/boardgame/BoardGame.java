@@ -43,7 +43,7 @@ public class BoardGame extends Game {
 		if(GameManager.INSTANCE.isAnimation())
 			setScreen(new IntroScreen(this));
 		else
-			setScreen(new MenuScreen(this));
+			setScreen(new GameScreen(this));
 
 	}
 
