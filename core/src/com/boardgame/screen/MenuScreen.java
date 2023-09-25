@@ -89,9 +89,9 @@ public class MenuScreen extends ScreenAdapter {
 
     private Actor createUi() {
         Table table = new Table();
-        table.defaults().pad(20);
+        table.defaults().pad(20).padTop(60);
 
-        TextureRegion backgroundRegion = gameplayAtlas2.findRegion(RegionNames.BACKGROUND);
+        //TextureRegion backgroundRegion = gameplayAtlas2.findRegion(RegionNames.BACKGROUND);
         table.setBackground(new TextureRegionDrawable(background));
 
         stage.getBatch().begin();
@@ -159,9 +159,9 @@ public class MenuScreen extends ScreenAdapter {
 
 
         Table buttonTable = new Table();
-        TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.MENU_BACKGROUND);
+        //TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.CARD_BACKGROUND_INTRO);
         buttonTable.defaults().padLeft(40).padRight(40);
-        buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
+       // buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
         buttonTable.add(welcomePlayer).padTop(60).row();
         buttonTable.add(playButton).padBottom(30).padTop(30).expandX().fillX().row();
         buttonTable.add(introButton).padBottom(30).expandX().fill().row();

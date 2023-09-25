@@ -19,7 +19,7 @@ import com.boardgame.screen.config.GameConfig;
 
 
 public class IntroScreen extends ScreenAdapter {
-    public static final float INTRO_DURATION_IN_SEC = 2.5f;   // duration of the (intro) animation
+    public static final float INTRO_DURATION_IN_SEC = 3.3f;   // duration of the (intro) animation
 
     private final BoardGame game;
     private final AssetManager assetManager;
@@ -95,9 +95,20 @@ public class IntroScreen extends ScreenAdapter {
 
     private Actor createDeck(int offset) {
         Image deck = new Image(gameplayAtlas2.findRegion(RegionNames.CARD_BACKGROUND));
-        deck.setScale(0.375f);
-        deck.setPosition(GameConfig.HUD_WIDTH -250 - offset * 20, 70);
+        deck.setScale(0.28f);
+        deck.setPosition(GameConfig.HUD_WIDTH -600 - offset * 20, 93);
 
+        deck.addAction(
+                Actions.sequence(
+                        Actions.delay(1.8f),
+                        Actions.moveTo(GameConfig.HUD_WIDTH -600 - offset * 20, 93),
+                        Actions.delay(offset*1.0f * 1.5f * 0.1f),
+                        Actions.parallel(
+
+                                Actions.moveTo(GameConfig.HUD_WIDTH -200 - offset * 20, 93, 0.5f)
+                        )
+                )
+        );
         return deck;
     }
 
@@ -105,25 +116,26 @@ public class IntroScreen extends ScreenAdapter {
         offsetX++;
         Image card;
         card = new Image(gameplayAtlas2.findRegion(RegionNames.CARD_BACKGROUND));
-        card.setScale(0.375f);
+        card.setScale(0.3f);
 
-        card.setPosition(150*offsetX-100, 50*offsetY+400);
+        card.setPosition(120*offsetX-50, 20*offsetY+500);
+
         return card;
     }
 
     private Actor createAnimation(int offset) {
         Image animatedCard = new Image(gameplayAtlas2.findRegion(RegionNames.returnRandomValue()));
-        animatedCard.setScale(0.25f);
-        float posX = 150*offset-100;
+        animatedCard.setScale(0.2f);
+        float posX = 120*offset-90;
         float posY = 0;
         if(offset > 3 )
-             posY = 180;
+             posY = 260;
         else
-             posY = 135;
+             posY = 240;
         animatedCard.setOrigin(Align.center);
         animatedCard.addAction(
                 Actions.sequence(
-                        Actions.moveTo(GameConfig.HUD_WIDTH -500, -152),
+                        Actions.moveTo(GameConfig.HUD_WIDTH -865, -152),
                         Actions.delay(1.0f * offset * 0.1f),
                         Actions.parallel(
                                 Actions.rotateBy(720, 0.95f),

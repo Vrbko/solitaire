@@ -1,5 +1,6 @@
 package com.boardgame.screen;
 
+import static com.boardgame.assets.RegionNames.ACE;
 import static com.boardgame.assets.RegionNames.BLANC;
 
 import com.badlogic.gdx.Game;
@@ -140,8 +141,8 @@ public class GameScreen extends ScreenAdapter {
         //final TextureRegion xRegion = gameplayAtlas.findRegion(RegionNames.BLANC);
 
         mainGrid.defaults().size(8, 12);   // all cells will be the same size
-        mainGrid.setDebug(true);
-//TODO TULE ROWS SAM OD GOR NE DOL IF PROPER
+        mainGrid.setDebug(false);
+
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < cols; column++) {
                 if(FacingValues[row][column])
@@ -154,19 +155,20 @@ public class GameScreen extends ScreenAdapter {
                 final int[] finalRow = {row};
                 final int finalColumn = column;
 
+
                 cell.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         final CardActor clickedCell = (CardActor) event.getTarget(); // it will be an image for sure :-)
 
                         if (Values[finalRow[0]][finalColumn] == 0 && finalRow[0] != 0){
-                            /*int temp = getDestinationRow(finalColumn);
-                            log.debug("TEMP " + temp + " row " + finalRow[0]);
-                            if(finalRow[0] - temp <= 1) {
-                                log.debug("YIPPIKAYYAY MOFO");
-                                finalRow[0] = temp;
-                            }
-                            else*/
+                           // int temp = getDestinationRow(finalColumn);
+                            //log.debug("TEMP " + temp + " row " + finalRow[0]);
+                            //if(finalRow[0] - temp <= 1) {
+                             //   log.debug("YIPPIKAYYAY MOFO");
+                              //  finalRow[0] = temp;
+                            //}
+                            //else
 
                             //log.debug("impoper clikc?:"  + click + "clicked x: " + x +" y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ()+ " final " + finalColumn);
 
@@ -291,7 +293,7 @@ public class GameScreen extends ScreenAdapter {
 
                 mainGrid.add(cell).padRight(2f).padLeft(2f); //2f
             }
-            mainGrid.row().expand().padTop(-10f);//-10
+            mainGrid.row().padTop(-10);//-10
         }
         mainGrid.pack();
        // mainGrid.setPosition(10f, 22.5f); // 13.0
@@ -301,9 +303,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private Actor createBackButton() {
-        final TextButton backButton = new TextButton("Back", skin);
+        final TextButton backButton = new TextButton("BACK", skin);
         backButton.setWidth(100);
-        backButton.setPosition(0, 20f);
+        backButton.setPosition(600, 20f);
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -321,20 +323,23 @@ public class GameScreen extends ScreenAdapter {
     private Actor createCompletedDecks() {
         final TextureRegion[] cardValue = {gameplayAtlas.findRegion(BLANC)};
         completedDeck.setDebug(false);   // turn on all debug lines (table, cell, and widget)
-        completedDeck.defaults().size(100f, 140f);
+        completedDeck.defaults().size(80, 120);
 
         int cols = 8;
         for (int column = 0; column < cols; column++) {
             final CardActor cell = new CardActor(cardValue[0], -1, column);
             final TextureRegion finalCardValue = cardValue[0];
-            completedDeck.add(cell).padTop(-120f).row();
+            completedDeck.add(cell).padLeft(-40f);
         }
+
+        //  table.row().expand().padTop(-10f);//-10
+
         completedDeck.center();
 
         completedDeck.setFillParent(true);
         completedDeck.pack();
         completedDeck.setPosition(
-                -740, -320
+                -400, -250
         );
         return completedDeck;
     }
@@ -343,10 +348,8 @@ public class GameScreen extends ScreenAdapter {
         final TextureRegion[] cardValue = {gameplayAtlas.findRegion(RegionNames.CARD_BACKGROUND)};
         final Table table = new Table();
         table.setDebug(false);   // turn on all debug lines (table, cell, and widget)
-        table.defaults().size(100f, 140f);
-        //final Table grid = new Table();
-       // grid.defaults().size(1f, 1f);   // all cells will be the same size
-       // grid.setDebug(false);
+        table.defaults().size(80, 120);
+
         int cols = 5;
         for (int column = 0; column < cols; column++) {
             final CardActor cell = new CardActor(cardValue[0], -1, column);
@@ -380,14 +383,17 @@ public class GameScreen extends ScreenAdapter {
                     isDeckCompleted(destinationColumn);
                 }
             });
-            table.add(cell).padTop(-90f).row();
+            table.add(cell).padLeft(-40f);
         }
+
+      //  table.row().expand().padTop(-10f);//-10
+
         table.center();
 
         table.setFillParent(true);
         table.pack();
         table.setPosition(
-                740, -320
+                450, -250
         );
         return table;
     }

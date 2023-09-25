@@ -84,6 +84,7 @@ public class LeaderboardScreen extends ScreenAdapter {
     private Actor createUi() {
 
         Table table = new Table();
+        table.setDebug(false);
         table.defaults();
 
         TextureRegion backgroundRegion = gameplayAtlas2.findRegion(RegionNames.BACKGROUND);
@@ -115,12 +116,13 @@ public class LeaderboardScreen extends ScreenAdapter {
         gamePercentage.setFontScale(1.5f);
 
         Table buttonTable = new Table();
-        buttonTable.defaults().padLeft(30).padRight(30);
+        buttonTable.defaults().padRight(20);
 
-        TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.MENU_BACKGROUND);
-        buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
+        //TextureRegion menuBackgroundRegion = gameplayAtlas2.findRegion(RegionNames.MENU_BACKGROUND);
+        //buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
        // List list = new List(skin);
-        buttonTable.add(backButton).padTop(30).padLeft(50).expandX().row();
+        buttonTable.add(backButton).padTop(250).expandX().row();
+
         buttonTable.add(gameUserText).padTop(20);
         buttonTable.add(gameWinsText).padTop(20);
         buttonTable.add(gameTriesText).padTop(20);
@@ -132,7 +134,7 @@ public class LeaderboardScreen extends ScreenAdapter {
             final Label gameTries = new Label(GameManager.INSTANCE.getTries(temp.getUsername()), skin);
             final Label gameWins = new Label(GameManager.INSTANCE.getScore(temp.getUsername()), skin);
             final Label gamePercentageScore = new Label(GameManager.INSTANCE.getPrecentage(temp.getUsername()), skin);
-            gameUser.setColor(Color.BLACK);
+            gameUser.setColor(Color.WHITE);
             gameTries.setColor(Color.RED);
             gameWins.setColor(Color.RED);
             gamePercentageScore.setColor(Color.RED);
@@ -165,7 +167,7 @@ public class LeaderboardScreen extends ScreenAdapter {
         buttonTable.center();
 
 
-        table.add(buttonTable).padBottom(100).padTop(100).fillX().row();
+        table.add(buttonTable).padBottom(320).padRight(90).fillX().row();
 
         table.center();
         table.setFillParent(true);

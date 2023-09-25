@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -29,16 +30,21 @@ public class GameManager {
     private Json json ;
     private FileHandle file ;
 
-    private Music menuMusic;
+    private final Music menuMusic,menuMusic2,menuMusic3,menuMusic4;
+    private final Array<Music> musicLibrary ;
+
 
 
     private GameManager() {
         file = Gdx.files.local("scores.json");
         json = new Json();
         listPlayers = new ArrayList<Player>();
-
+        musicLibrary = new Array<Music>();
         JsonReader jsonReader = new JsonReader();
-        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("teufel.ogg"));
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/teufel.ogg"));
+        menuMusic2 = Gdx.audio.newMusic(Gdx.files.internal("music/wirSind.ogg"));
+        menuMusic3 = Gdx.audio.newMusic(Gdx.files.internal("music/teufelPiano.ogg"));
+        menuMusic4 = Gdx.audio.newMusic(Gdx.files.internal("music/trinken.ogg"));
 
         if(file.exists()){
         JsonValue values = jsonReader.parse(Gdx.files.internal(file.path()));
@@ -63,16 +69,61 @@ public class GameManager {
 
         if(this.audio)
             this.startMusic();
+
+        musicLibrary.add(menuMusic);
+        musicLibrary.add(menuMusic2);
+        musicLibrary.add(menuMusic3);
+        musicLibrary.add(menuMusic4);
+
+        for (int i= 0; i < this.musicLibrary.size ; i ++) {
+            try {
+
+                final int finalI = i;
+                musicLibrary.get(i).setOnCompletionListener(new Music.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(Music music) {
+                        if(finalI == musicLibrary.size -1)
+                            musicLibrary.get(0).play();
+                        else
+                            musicLibrary.get(finalI +1).play();
+
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
     public void stopMusic() {
-        if(menuMusic.isPlaying())
-            menuMusic.stop();
+        for(Music track: this.musicLibrary){
+            if(track.isPlaying())
+                track.stop();
+        }
+    }
+
+    public void nextSong() {
+        boolean play = false;
+        short iterator = 0;
+        for(Music track: this.musicLibrary){
+            iterator++;
+            if(play) {
+                track.play();
+                break;
+            }
+            if(track.isPlaying()) {
+                track.stop();
+                play = true;
+                if(iterator == this.musicLibrary.size){
+                    this.musicLibrary.get(0).play();
+                }
+            }
+        }
     }
 
     public void startMusic() {
-        menuMusic.setLooping(true);
+        menuMusic.setLooping(false);
         menuMusic.play();
-
     }
 
     public void setName(String username) {

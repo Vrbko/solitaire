@@ -28,6 +28,7 @@ public class DesktopLauncher {
 		config.setTitle("Spider Solitaire");
 		config.setWindowedMode((int) 1920, (int) 990);
 
+
 		config.setWindowIcon(Files.FileType.Internal,"spider2.png");
 		new Lwjgl3Application(new BoardGame(), config);
 	}

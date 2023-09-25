@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -49,6 +50,7 @@ public class SettingsScreen extends ScreenAdapter {
     private TextButton toggleButton;
     private TextButton toggleAudioButton;
     private TextField username;
+
 
     public SettingsScreen(BoardGame game) {
         this.game = game;
@@ -171,13 +173,24 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
 
+        TextButton nextButton = new TextButton("Next Song", uiSkin);
+        nextButton.setColor(BLACK);
+        nextButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameManager.INSTANCE.nextSong();
 
-        TextureRegion menuBackground = gameplayAtlas.findRegion(RegionNames.MENU_BACKGROUND);
+            }
+        });
+
+
+      //  TextureRegion menuBackground = gameplayAtlas.findRegion(RegionNames.MENU_BACKGROUND);
 
         Table contentTable = new Table(uiSkin);
-        contentTable.setBackground(new TextureRegionDrawable(menuBackground));
+      //  contentTable.setBackground(new TextureRegionDrawable(menuBackground));
         contentTable.add(toggleButton).padTop(20).row();
         contentTable.add(toggleAudioButton).padTop(40).row();
+        contentTable.add(nextButton).padTop(40).row();
         contentTable.add(username).padLeft(30).padRight(30).padTop(30).row();
         contentTable.add(backButton).width(100).padTop(30).padBottom(20).colspan(3);
 
