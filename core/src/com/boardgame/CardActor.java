@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.boardgame.assets.RegionNames;
 
 public class CardActor extends Image {
 
@@ -93,6 +94,39 @@ public class CardActor extends Image {
 
                 )
         );
+
+    }
+    public void setDeck(int offset) {
+        setOrigin(Align.center);
+        addAction(
+                Actions.sequence(
+                        Actions.delay(0.001f),
+                        Actions.moveBy(-400f,0f,0.0f),
+                        Actions.delay(0.5f-offset*0.1f),
+                        Actions.moveBy(400f,0,0.5f)
+
+                )
+        );
+
+
+    }
+
+    public void setLastCards(int offset) {
+        //setOrigin(Align.center);
+        addAction(
+                Actions.sequence(
+                        Actions.moveBy(-offset*40,-270f,0.01f),
+                        Actions.delay(0.2f),
+                        Actions.delay(offset*0.15f),
+                        Actions.parallel(
+                                Actions.rotateBy(360, 1f),
+                                Actions.moveBy(+offset*40,270f,1f)
+
+                        )
+
+                )
+        );
+
 
     }
 }

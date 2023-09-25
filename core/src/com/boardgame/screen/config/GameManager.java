@@ -1,6 +1,8 @@
 package com.boardgame.screen.config;
 
 
+import static java.lang.Math.random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
@@ -17,6 +19,7 @@ import com.boardgame.screen.GameScreen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
 public class GameManager {
     public static final GameManager INSTANCE = new GameManager();
@@ -30,7 +33,7 @@ public class GameManager {
     private Json json ;
     private FileHandle file ;
 
-    private final Music menuMusic,menuMusic2,menuMusic3,menuMusic4;
+    private final Music menuMusic,menuMusic2,menuMusic3,menuMusic4,menuMusic5;
     private final Array<Music> musicLibrary ;
 
 
@@ -45,6 +48,7 @@ public class GameManager {
         menuMusic2 = Gdx.audio.newMusic(Gdx.files.internal("music/wirSind.ogg"));
         menuMusic3 = Gdx.audio.newMusic(Gdx.files.internal("music/teufelPiano.ogg"));
         menuMusic4 = Gdx.audio.newMusic(Gdx.files.internal("music/trinken.ogg"));
+        menuMusic5 = Gdx.audio.newMusic(Gdx.files.internal("music/apocalypse.ogg"));
 
         if(file.exists()){
         JsonValue values = jsonReader.parse(Gdx.files.internal(file.path()));
@@ -66,32 +70,27 @@ public class GameManager {
         this.animation = animationsToggle;
 
         this.audio = audioToggle;
-
-        if(this.audio)
-            this.startMusic();
-
         musicLibrary.add(menuMusic);
         musicLibrary.add(menuMusic2);
         musicLibrary.add(menuMusic3);
         musicLibrary.add(menuMusic4);
+        musicLibrary.add(menuMusic5);
+
+        if(this.audio)
+            this.startMusic();
+
+
 
         for (int i= 0; i < this.musicLibrary.size ; i ++) {
-            try {
 
-                final int finalI = i;
                 musicLibrary.get(i).setOnCompletionListener(new Music.OnCompletionListener() {
                     @Override
                     public void onCompletion(Music music) {
-                        if(finalI == musicLibrary.size -1)
-                            musicLibrary.get(0).play();
-                        else
-                            musicLibrary.get(finalI +1).play();
+                        nextSong();
 
                     }
                 });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
         }
 
     }
@@ -101,6 +100,9 @@ public class GameManager {
                 track.stop();
         }
     }
+    public Array<Music> returnMusic(){
+        return musicLibrary;
+    }
 
     public void nextSong() {
         boolean play = false;
@@ -109,6 +111,7 @@ public class GameManager {
             iterator++;
             if(play) {
                 track.play();
+
                 break;
             }
             if(track.isPlaying()) {
@@ -120,10 +123,36 @@ public class GameManager {
             }
         }
     }
+    public void prevSong() {
+        for(short i = 0 ; i < this.musicLibrary.size ; i++){
+            try {
+
+                if (this.musicLibrary.get(i).isPlaying()) {
+
+                    musicLibrary.get(i).stop();
+                    if (i == 0) {
+                        this.musicLibrary.get(this.musicLibrary.size-1).play();
+
+                        break;
+
+
+                    } else{
+                        this.musicLibrary.get(i - 1).play();
+                        break;
+                    }
+
+
+                }
+            }
+            catch (Exception e){
+                log.debug(e.toString());
+            }
+        }
+    }
 
     public void startMusic() {
-        menuMusic.setLooping(false);
-        menuMusic.play();
+        Random rand= new Random();
+        musicLibrary.get(rand.nextInt(musicLibrary.size)).play();
     }
 
     public void setName(String username) {
@@ -141,9 +170,7 @@ public class GameManager {
     }
     public void setAudio(boolean toggle) {
         this.audio = toggle;
-        if(toggle){
 
-        }
         PREFS.putBoolean("audio", audio);
         PREFS.flush();
     }

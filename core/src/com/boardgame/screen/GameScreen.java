@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -154,7 +155,8 @@ public class GameScreen extends ScreenAdapter {
                 final TextureRegion finalCardValue = cardValue[0];
                 final int[] finalRow = {row};
                 final int finalColumn = column;
-
+                if(FacingValues[row][column])
+                    cell.setLastCards(10-column);
 
                 cell.addListener(new ClickListener() {
                     @Override
@@ -353,6 +355,9 @@ public class GameScreen extends ScreenAdapter {
         int cols = 5;
         for (int column = 0; column < cols; column++) {
             final CardActor cell = new CardActor(cardValue[0], -1, column);
+           // gameplayStage.addActor(createDeck(column));
+            cell.setDeck(column);
+
             final TextureRegion finalCardValue = cardValue[0];
             cell.addListener(new ClickListener() {
                 @Override
@@ -361,6 +366,7 @@ public class GameScreen extends ScreenAdapter {
                     if (clickedCell.isMovable()) {
                         clickedCell.removeAnimation();
                     }
+
                     // log.debug("clicked x: " + x + " y: " + x + " card: " + finalCardValue + " i: " + cell.returnIndexI() + " j: " + cell.returnIndexJ());
                     addOneCardToColumns();
                     SnapshotArray<Actor> children = mainGrid.getChildren();

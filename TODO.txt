@@ -5,19 +5,27 @@ If clicked, rob
 
 Visual:
 Animacija kadar en pack nardis
-V winner screen remove buttons dok ni konc animacije
+V winner screen remove buttons dok ni konc animacije // winner screen update
 Illegalni move, mogoc kak sound + alert kje + illegal move da se shaka
 Fonti da so lepsi
-Leaderboard gleda goofy
-Settings - intro animations... dodaj alpa priemenuj
 Move counter-score
+Music menu?: select, view
+
+Mogoc kadar je selected gre mal visje karta, sam pol problem kak bi to dol dal nazaj
+Kadar menjas karte animacija
+
+
+
+BUG
+    Zadnja vrstica ko v deck das vse karte neke ni vreu if stavek za sprememnbo backgrounda v decku
 
 TESTING + UPDATING
-    Da se lahk povsod klikne na karti.
+     Music/ play/stop/next/prev/select
 
 
 DONE:
-    Music
+    Klik na kartah
+    If name = "" name set "Unknown Soldier"
 
 
 

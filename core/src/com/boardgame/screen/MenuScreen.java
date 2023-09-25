@@ -164,7 +164,7 @@ public class MenuScreen extends ScreenAdapter {
        // buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
         buttonTable.add(welcomePlayer).padTop(60).row();
         buttonTable.add(playButton).padBottom(30).padTop(30).expandX().fillX().row();
-        buttonTable.add(introButton).padBottom(30).expandX().fill().row();
+        //buttonTable.add(introButton).padBottom(30).expandX().fill().row();
         buttonTable.add(outroButton).padBottom(30).expandX().fill().row();
         buttonTable.add(leaderboardButton).padBottom(30).fillX().row();
         buttonTable.add(settingsButton).padBottom(30).fillX().row();
